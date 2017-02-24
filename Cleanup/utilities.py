@@ -36,18 +36,18 @@ def convert_to_8bit(image):
     im2 = np.uint8(im2)
     return im2
 
+def press(event):
+  if event.key == 'escape':
+    exit(0)
+  else:
+    plt.close()
+
 def show(image):
     fig, ax = plt.subplots()
     fig.canvas.mpl_connect('key_press_event', press)
-    xl = ax.set_xlabel('Is this a good choice of parameters?')
-    ax.set_title('Press a key')
-    plt.show()
+    ax.set_title('Is this a good choice of parameters? If yes, press \'y\', else press ESC.')
     plt.imshow(image)
     plt.show()
-
-# In[ ]:
-
-# In[ ]:
 
 def create_rot_mask(orig_mask, deg):
     rotmymask = []
@@ -182,16 +182,6 @@ def print_to_csv(data, fname, meta, tifname):
             new_row_in_file += (str(data[Cells-1][t]))
             f.write(new_row_in_file + '\n')
     f.close()
-
-def press(event):
-  #print('pressed:', event.key)
-  #sys.stdout.flush()
-  if event.key == 'escape':
-    exit(0)
-  elif event.key == 'y':
-    print('continue')
-  else:
-    return
 
 # Goal:
 # * Filter particles better

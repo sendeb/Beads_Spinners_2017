@@ -1,6 +1,6 @@
 from utilities import *
 # # 
-fname = './2016-11-04_spinners_switching_tz17_MM_met_OD_1_2'
+fname = './videos/2016-11-04_spinners_switching_tz17_MM_met_OD_1_2'
 tifname = fname + '.tif'
 meta = metamorph_timestamps.get(tifname)
 raw_frames = pims.TiffStack(tifname, as_grey=False)
@@ -13,12 +13,14 @@ for i in range(len(frames)):
 frames = np.array(bit_frames)
 
 avg = np.mean(frames, axis = 0)
-show(avg)
 
 #possibly filter particles using ecc vals stationary cells will not look circular
 f = tp.locate(avg, diameter=13, invert=False) #change 15 later, need to tune
 f = f[(f['ecc'] < 0.1)]
-f.head() # shows the first few rows of data
+# f.head() # shows the first few rows of data
+fig, ax = plt.subplots()
+fig.canvas.mpl_connect('key_press_event', press)
+ax.set_title('Is this a good choice of parameters? If yes, press \'y\', else press ESC.')
 tp.annotate(f, avg)
 
 centers = []
