@@ -13,11 +13,11 @@ for i in range(len(frames)):
 frames = np.array(bit_frames)
 
 avg = np.mean(frames, axis = 0)
+show(avg)
 
 #possibly filter particles using ecc vals stationary cells will not look circular
 f = tp.locate(avg, diameter=13, invert=False) #change 15 later, need to tune
-f = f[(f['ecc'] < 0.1)
-       ]
+f = f[(f['ecc'] < 0.1)]
 f.head() # shows the first few rows of data
 tp.annotate(f, avg)
 
