@@ -34,4 +34,5 @@ tp.annotate(f, avg)
 # annotated (circled) average image.
 params = {'ecc' : ecc, 'diameter': diameter}
 np.save('params/' + video_name + '_params', params)
+print('Sucessfully saved!')
 exit(0)

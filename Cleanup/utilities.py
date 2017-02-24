@@ -38,6 +38,7 @@ def convert_to_8bit(image):
 
 def press(event):
   if event.key == 'escape':
+    print('Exiting!')
     exit(0)
   else:
     plt.close()

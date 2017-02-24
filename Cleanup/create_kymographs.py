@@ -27,8 +27,7 @@ f = f[(f['ecc'] < ecc)]
 # f.head() # shows the first few rows of data
 
 centers = []
-# num_elems = len(f.x) # number of particles detected
-num_elems = min(10,len(f.x)) # number of particles detected
+num_elems = len(f.x) # number of particles detected
 xs = list(f.x)
 ys = list(f.y)
 for i in range(num_elems):
