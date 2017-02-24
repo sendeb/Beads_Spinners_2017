@@ -98,30 +98,27 @@ def build_kymograph(cell_num, frames, mask, centers):
         kymograph.append(angle_kym(ang, cell_num, frames, mask, centers))
     return np.array(kymograph)
 
-
-def compute_trace(kymograph_images, kymograph):
+def process_kymograph(kymograph):
+    # Appends kymograph to kymograph_images and returns
+    # computed trace from that saved kymograph image.
     trace = []
     # Remove background by subtracting median of each vertical column from itself.
     no_background=[]
-#     orig = np.copy(kymograph)
-    orig = kymograph
-    for i in range(orig.shape[1]):
+    for i in range(kymograph.shape[1]):
         # black cells on white background (switch signs if reversed)
-        no_background.append(orig[:,i]-np.median(orig,1)) 
+        no_background.append(kymograph[:,i]-np.median(kymograph,1)) 
     no_background=np.array(no_background).T
     
     # Change negative values to 0.
     clipped_background = no_background.clip(min=0)
+    return clipped_background # the processed kymograph
     
-    ## Hacky
-    kymograph_images.append(clipped_background)
-    ##
-    
+def compute_trace(processed_kymograph):
     # Extract 1D signal using LA trick.
     eps = 1e-12
     def exp_func(x):
         return np.dot(np.arange(len(x)), np.power(x, 10))/(eps + np.sum(np.power(x, 10)))
-    weighted_sum = np.apply_along_axis(exp_func, 0, clipped_background)
+    weighted_sum = np.apply_along_axis(exp_func, 0, processed_kymograph)
     
     # Derivative of 1D signal. Continuous parts show angular velocity of cell (not 100% sure on this.)
     # conv = np.convolve([-1.,1],weighted_sum, mode='full')[:-1]
@@ -129,11 +126,11 @@ def compute_trace(kymograph_images, kymograph):
     trace = weighted_sum
     return trace
 
-def plot_kymograph(idx):
+def plot_kymograph(kymograph):
     plt.title('Kymograph', fontsize=20)
     plt.ylabel('Angles', fontsize=20)
     plt.xlabel('Frame', fontsize=20)
-    plt.imshow(kymograph_images[idx][:,:300])
+    plt.imshow(kymograph[:,:300])
 
 
 #Returns the indices (frame locations) of when the sign switches.
