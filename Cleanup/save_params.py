@@ -1,9 +1,10 @@
 from utilities import *
 # # 
-videos_dir = 'videos/'
-video_name = '2016-11-04_spinners_switching_tz17_MM_met_OD_1_2'
+#  Ex. python traces.py 1mM 2
+# [Concentration] [File No. in paths dictionary]
+# (See utilities.py)
+video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
-# fname = argv[1]
 tifname = fname + '.tif'
 meta = metamorph_timestamps.get(tifname)
 raw_frames = pims.TiffStack(tifname, as_grey=False)
@@ -20,10 +21,25 @@ avg = np.mean(frames, axis = 0)
 # Set parameters.
 diameter = 13
 ecc = 0.3
-
+minmass = 300
+# topn = 20 # max number of cells
 #possibly filter particles using ecc vals stationary cells will not look circular
-f = tp.locate(avg, diameter=diameter, invert=False)
+
+f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass)
 f = f[(f['ecc'] < ecc)]
+
+# Uncomment below to view distribution of a value.
+# fig, ax = plt.subplots()
+# ax.hist(f['mass'], bins=20)
+# # Optionally, label the axes.
+# ax.set(xlabel='mass', ylabel='count');
+# plt.show()
+# exit(0)
+
+### REMEMBER TO SAVE PARAMS IN DICTIONARY
+#### ANDDDDD EXTRACT PARAMS IN CREATE_KYMOGRAPHS.py !!!!!!!!!!!!!
+
+
 fig, ax = plt.subplots()
 fig.canvas.mpl_connect('key_press_event', press)
 ax.set_title('Is this a good choice of parameters? If yes, press \'y\', else press ESC.')
@@ -32,7 +48,7 @@ tp.annotate(f, avg)
 # If got this far, save paramters to file: VIDEONAME + params .npy
 # Parameters are the variables that result in the current
 # annotated (circled) average image.
-params = {'ecc' : ecc, 'diameter': diameter}
-np.save('params/' + video_name + '_params', params)
+params = {'ecc' : ecc, 'diameter': diameter, 'minmass' : minmass}
+np.save('params' + video_name + '_params', params)
 print('Sucessfully saved!')
 exit(0)

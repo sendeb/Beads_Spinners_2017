@@ -1,8 +1,9 @@
-from __future__ import division, unicode_literals
-import numpy as np
-import scipy, xml.etree.ElementTree, tifffile
-from libtiff import TIFF
-from datetime import datetime
+# from __future__ import division, unicode_literals
+# import numpy as np
+# import scipy, xml.etree.ElementTree, tifffile
+# from libtiff import TIFF
+# from datetime import datetime
+from utilities import *
 
 def get(path_to_tif):
 	# Parse timestamp strings from the XML 

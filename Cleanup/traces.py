@@ -1,9 +1,11 @@
 from utilities import *
+
 # # 
-videos_dir = 'videos/'
-video_name = '2016-11-04_spinners_switching_tz17_MM_met_OD_1_2'
+#  Ex. python traces.py 1mM 2
+# [Concentration] [File No. in paths dictionary]
+# (See utilities.py)
+video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
-# fname = argv[1]
 tifname = fname + '.tif'
 meta = metamorph_timestamps.get(tifname)
 raw_frames = pims.TiffStack(tifname, as_grey=False)
@@ -34,9 +36,9 @@ tp.annotate(f, avg)
 # Parameters are the variables that result in the current
 # annotated (circled) average image.
 params = {'ecc' : ecc, 'diameter': diameter}
-np.save('params/' + video_name + '_params', params)
+np.save('params' + video_name + '_params', params)
 exit(0)
-params = np.load('params/' + video_name + '_params.npy')[()]
+params = np.load('params' + video_name + '_params.npy')[()]
 
 centers = []
 # num_elems = len(f.x) # number of particles detected

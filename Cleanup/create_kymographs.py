@@ -1,7 +1,9 @@
 from utilities import *
 # # 
-videos_dir = 'videos/'
-video_name = '2016-11-04_spinners_switching_tz17_MM_met_OD_1_2'
+#  Ex. python traces.py 1mM 2
+# [Concentration] [File No. in paths dictionary]
+# (See utilities.py)
+video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
 # fname = argv[1]
 tifname = fname + '.tif'
@@ -15,14 +17,15 @@ for i in range(len(frames)):
     bit_frames.append(convert_to_8bit(frames[i]))
 frames = np.array(bit_frames)
 
-params = np.load('params/' + video_name + '_params.npy')[()]
+params = np.load('params' + video_name + '_params.npy')[()]
 diameter = params['diameter']
 ecc = params['ecc']
+minmass = params['minmass']
 
 avg = np.mean(frames, axis = 0)
 
 #possibly filter particles using ecc vals stationary cells will not look circular
-f = tp.locate(avg, diameter=diameter, invert=False) #change 15 later, need to tune
+f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass) #change 15 later, need to tune
 f = f[(f['ecc'] < ecc)]
 # f.head() # shows the first few rows of data
 
@@ -52,10 +55,8 @@ for cell_num in range(num_elems): #### NOTE: For now only 10 cells until we get 
     kymograph_images.append(processed_kymograph)
     print "step2", time.time() - t0
 
-np.save('kymographs/' + video_name + '_kymographs', kymograph_images)
-
-kymographs = np.load('kymographs/' + video_name + '_kymographs.npy')
-# np.save('traces_test', bacterial_traces)
+np.save('kymographs' + video_name + '_kymographs', kymograph_images)
+kymographs = np.load('kymographs' + video_name + '_kymographs.npy')
 
 # print_to_csv(bacterial_traces, 'test_csv', meta, tifname)
 # Later, go through kymograph images and delete bad ones.

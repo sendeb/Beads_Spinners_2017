@@ -4,27 +4,60 @@ import numpy as np
 from math import radians, sin, cos, floor
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import pandas as pd
 import trackpy as tp
-import scipy, pims
+import scipy
+import pims
 from scipy import interpolate, signal
-from libtiff import TIFF
-from pandas import DataFrame, Series  # for convenience
 import cv2
 import time
-import scipy, xml.etree.ElementTree, tifffile
+import xml.etree.ElementTree
+import tifffile
 from datetime import datetime
 import metamorph_timestamps
 from scipy.ndimage.filters import median_filter
+import sys
 
 mpl.rc('figure',  figsize=(16, 10))
 mpl.rc('image', cmap='gray')
 
+## Paths to our files. Update as data is recorded.
+paths = {
+'1mM': [
+    '1mM/2017-02-03/Stream2_serine1milmol3msexposure_lampv7_55fps.tif',
+    '1mM/2017-02-03/Stream3_serine1milmol3msexposure_lampv7_55fps.tif',
+    '1mM/2017-02-03/Stream133wssecondsafter_serine1milmol3msexposure_lampv7_55fps.tif'],
+'1uM' : [
+    '1uM/1uM_3ms_LV12_Stream0.tif',
+    '1uM/1uM_3ms_LV12_Stream1.tif',
+    '1uM/1uM_3ms_LV12_Stream2.tif'
+    ],
+'10uM' : [
+    '10uM/10uM_3ms_LV12_Stream0.tif',
+    '10uM/10uM_3ms_LV12_Stream1.tif',
+    '10uM/10uM_3ms_LV12_Stream2.tif'
+    ],
+'100nM' : [
+    
+    ],
+'100um' : [
+    
+    ],
+'MotMed' : [
+    '1mM/2017-02-03/Stream1_motmed3msexposure_lampv7_55fps.tif',
+    '1mM/2017-02-03/Stream2_motmed3msexposure_lampv7_55fps.tif',
+    ]
+}
+
 angs = []
 # Set this!
-#for i in np.linspace(0, 360, 24): #select num. intervals per circle.
-for i in np.linspace(0, 360, 4): #select num. intervals per circle.
+for i in np.linspace(0, 360, 12): #select num. intervals per circle.
     angs.append(i)
+
+def get_video_path(args):
+    path = paths[args[1]][int(args[2])]
+    videos_dir = unicode.join('/', unicode.split(path, '/')[:-1])
+    video_name = unicode.split(unicode.split(path, '/')[-1], '.')[0]
+    return '/' + str(video_name), str(videos_dir)
 
 # Path to tif stack 
 
