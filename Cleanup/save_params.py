@@ -6,7 +6,6 @@ from utilities import *
 video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
 tifname = fname + '.tif'
-meta = metamorph_timestamps.get(tifname)
 raw_frames = pims.TiffStack(tifname, as_grey=False)
 frames = [np.fromstring(f.data, dtype=np.int16) for f in raw_frames] # int16 may have to change depending on dtype
 frames = [np.reshape(f, (-1, raw_frames[0].shape[0], raw_frames[0].shape[1]) )[0] for f in frames]
@@ -38,7 +37,6 @@ f = f[(f['ecc'] < ecc)]
 
 ### REMEMBER TO SAVE PARAMS IN DICTIONARY
 #### ANDDDDD EXTRACT PARAMS IN CREATE_KYMOGRAPHS.py !!!!!!!!!!!!!
-
 
 fig, ax = plt.subplots()
 fig.canvas.mpl_connect('key_press_event', press)

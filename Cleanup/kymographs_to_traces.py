@@ -5,10 +5,16 @@ from utilities import *
 # (See utilities.py)
 video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
+tifname = fname + '.tif'
+meta = metamorph_timestamps.get(tifname)
+
 # fname = argv[1]:
 kymograph_images = np.load('kymographs' + video_name + '_kymographs.npy') # maybe have to do [()]
 num_elems = len(kymograph_images)
 bacterial_traces = []
+
+# TODO: Rerfer to save_params. In loop, preview each kymograph. Ask y/n to compute its trace.
+
 for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For now only 10 cells until we get things working! ####
     t0 = time.time()
     print 'Percent complete:', cell_num*100./num_elems, '%'
@@ -18,4 +24,5 @@ for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For
     bacterial_traces.append(trace)
 
 np.save('traces' + video_name + '_traces', bacterial_traces)
-# print_to_csv(bacterial_traces, 'test_csv', meta, tifname) # do later
+print_to_csv(bacterial_traces, 'traces' + video_name + '_traces_csv', meta, tifname) # do later
+print('Sucessfully saved!')

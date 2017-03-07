@@ -57,7 +57,7 @@ for cell_num in range(num_elems): #### NOTE: For now only 10 cells until we get 
 
 np.save('kymographs' + video_name + '_kymographs', kymograph_images)
 kymographs = np.load('kymographs' + video_name + '_kymographs.npy')
-
+print('Sucessfully saved!')
 # print_to_csv(bacterial_traces, 'test_csv', meta, tifname)
 # Later, go through kymograph images and delete bad ones.
 # Use those to compute trace; then save trace to csv and with np.save.
