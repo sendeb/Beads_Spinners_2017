@@ -68,6 +68,8 @@ for cell_num in range(num_elems): #### NOTE: For now only 10 cells until we get 
     bacterial_traces.append(trace)
 
 np.save('traces_test', bacterial_traces)
+print('Sucessfully saved!')
+
 # traces = np.load('traces_test.npy')
 
 print_to_csv(bacterial_traces, 'test_csv', meta, tifname)
