@@ -7,6 +7,7 @@ video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
 tifname = fname + '.tif'
 meta = metamorph_timestamps.get(tifname)
+ang_chunks = 12
 
 save_kymograph = False
 def press2(event):
@@ -50,7 +51,7 @@ for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For
         print "step1", time.time() - t0
         trace = compute_trace(processed_kymograph)
         print "step2", time.time() - t0
-        bacterial_traces.append(trace)
+        bacterial_traces.append(trace * 360.0 / ang_chunks)
 	
 	# First 500 frames with trace on top
 	plt.figure()
@@ -60,7 +61,6 @@ for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For
 	plt.plot(trace[:500], 'r-', lw = 3)
 	plt.imshow(processed_kymograph[:,:500],cmap='gray')
 	plt.show()
-
     else:
         print 'Skipping!'
 
