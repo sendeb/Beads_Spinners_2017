@@ -54,6 +54,7 @@ for i in np.linspace(0, 360, 12): #select num. intervals per circle.
     angs.append(i)
 
 def get_video_path(args):
+    # Arg1 = folder w/ concentration. Arg2 = stream number in that folder (see paths dict)
     path = paths[args[1]][int(args[2])]
     videos_dir = unicode.join('/', unicode.split(path, '/')[:-1])
     video_name = unicode.split(unicode.split(path, '/')[-1], '.')[0]
@@ -70,6 +71,8 @@ def convert_to_8bit(image):
     return im2
 
 def press(event):
+  if event.key == 'n':
+     plt.close()
   if event.key == 'escape':
     print('Exiting!')
     exit(0)
@@ -101,23 +104,19 @@ def adj_ctr_mask(mask, deg, cell_num, centers):
     return np.array(adj_mask)
 
 
-def angle_kym(ang, cell_num, frames, mymask, centers):
+def angle_kym(ang, cell_num, frames, mymask, centers, Show=False):
     ang_ar=[]
     t0 = time.time()
     for i in range(frames.shape[0]):
-#         print "Step1", time.time() - t0
         frame = frames[i].astype(np.uint8)
         box = np.int64(adj_ctr_mask(mymask, ang, cell_num, centers)) # this is the box rotated at ang deg.
-#         print "Step2", time.time() - t0
         cv2.drawContours(frame,[box],0,(0,0,0),1)
-#         print "Step3", time.time() - t0
-#         if i == 0 and ang == 0: # shows the windows on top of 75th frame
-#             show(frame) # only showing filter do a 360 on first frame.
+	if Show:	
+       	    if i == 0 and ang == 0: # shows the windows on top of 75th frame
+       	        show(frame) # only showing filter do a 360 on first frame.
         mask = np.zeros(frame.shape,np.uint8)
         cv2.drawContours(mask,[box],0,1,-1) # cv2.drawContours(mask,[box],0,255,-1)
-#         print "Step4", time.time() - t0
         ang_ar.append(cv2.mean(frame,mask=mask)[0])
-#         print "Step5", time.time() - t0
     return ang_ar # for each frame, computes the pixel average for a window rot'd at a given theta 
 
 def invert_colors(kymograph):
@@ -126,10 +125,10 @@ def invert_colors(kymograph):
     return (1-kymograph) * 255
 
 
-def build_kymograph(cell_num, frames, mask, centers):
+def build_kymograph(cell_num, frames, mask, centers, Show=False):
     kymograph = []
     for ang in angs:
-        kymograph.append(angle_kym(ang, cell_num, frames, mask, centers))
+        kymograph.append(angle_kym(ang, cell_num, frames, mask, centers, Show=Show))
     return np.array(kymograph)
 
 def process_kymograph(kymograph):
