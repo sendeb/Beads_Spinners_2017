@@ -37,9 +37,15 @@ paths = {
     '10uM/10uM_3ms_LV12_Stream2.tif'
     ],
 '100nM' : [
+    '100nM/100nM_3ms_LV12_Stream0.tif',
+    '100nM/100nM_3ms_LV12_Stream1.tif',
+    '100nM/100nM_3ms_LV12_Stream2.tif'
     
     ],
 '100um' : [
+    '100uM/100uM_3ms_LV12_Stream0.tif',
+    '100uM/100uM_3ms_LV12_Stream1.tif',
+    '100uM/100uM_3ms_LV12_Stream2.tif'
     
     ],
 'MotMed' : [
