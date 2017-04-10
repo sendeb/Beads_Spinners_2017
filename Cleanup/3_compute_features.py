@@ -86,3 +86,4 @@ if __name__ == '__main__':
 	# To open, run:
 	# features = np.load('features' + video_name + '_features.npy')[()] # Note: [()] allows us to load the dict() we saved.
 
+	# plot distribution of bias and mean_is_interval for each concentration?
