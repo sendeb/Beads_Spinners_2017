@@ -13,9 +13,9 @@ video_name, videos_dir = get_video_path(sys.argv)
 print video_name, videos_dir
 traces = np.load('traces' + video_name + '_traces.npy')
 features = 	{
-				'bias'								: 	[],
+				'bias'								:	[],
 				'mean_interswitch_interval'			:	[],
-				'etc'								: 	[]
+				'etc'								:	[]
 			}
 
 interval_bias = lambda s: np.sum((np.array(s)+1)/2)/len(s) # CCW / (CCW + CW); s is interval over which to compute bias, s is signs of rotation direction.
