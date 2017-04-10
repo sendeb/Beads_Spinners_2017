@@ -21,11 +21,15 @@ mpl.rc('figure',  figsize=(16, 10))
 mpl.rc('image', cmap='gray')
 
 ## Paths to our files. Update as data is recorded.
+
+## TODO: notice how tif files now have prefix!!!
+### We will have to change how code SAVES and OPENS tifs/params/kymos/etc so that pipeline runs smoothly.
+
 paths = {
 '1mM': [
-    '1mM/2017-02-03/Stream2_serine1milmol3msexposure_lampv7_55fps.tif',
-    '1mM/2017-02-03/Stream3_serine1milmol3msexposure_lampv7_55fps.tif',
-    '1mM/2017-02-03/Stream133wssecondsafter_serine1milmol3msexposure_lampv7_55fps.tif'],
+    '1mM/2017-02-03/1mM_Stream2_serine1milmol3msexposure_lampv7_55fps.tif',
+    '1mM/2017-02-03/1mM_Stream3_serine1milmol3msexposure_lampv7_55fps.tif',
+    '1mM/2017-02-03/1mM_Stream133wssecondsafter_serine1milmol3msexposure_lampv7_55fps.tif'],
 '1uM' : [
     '1uM/1uM_3ms_LV12_Stream0.tif',
     '1uM/1uM_3ms_LV12_Stream1.tif',
@@ -49,8 +53,11 @@ paths = {
     
     ],
 'MotMed' : [
-    '1mM/2017-02-03/Stream1_motmed3msexposure_lampv7_55fps.tif',
-    '1mM/2017-02-03/Stream2_motmed3msexposure_lampv7_55fps.tif',
+    #'1mM/2017-02-03/MotMed_Stream1_motmed3msexposure_lampv7_55fps.tif',
+    #'1mM/2017-02-03/MotMed_Stream2_motmed3msexposure_lampv7_55fps.tif',
+    'MotMed/MotMed_3ms_LV12_Stream0.tif',
+    'MotMed/MotMed_3ms_LV12_Stream1.tif',
+    'MotMed/MotMed_3ms_LV12_Stream2.tif'
     ]
 }
 
