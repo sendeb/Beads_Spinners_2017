@@ -71,7 +71,8 @@ paths = {
     '1mM/1mM_ser1m_2.tif',
     '1mM/1mM_ser1m_3.tif',
     '1mM/1mM_ser1m_4.tif', # move to correct folder
-    '1mM/1mM_ser1m_5.tif'],
+    '1mM/1mM_ser1m_5.tif'
+    ],
 '1uM' : [
     '1uM/1uM_ser1u_1.tif',
     '1uM/1uM_ser1u_2.tif',
@@ -82,22 +83,22 @@ paths = {
 '10uM' : [
     '10uM/10uM_ser10u_1.tif',
     '10uM/10uM_ser10u_2.tif',
-    '10uM/10uM_ser10u_3.tif'
-    '10uM/10uM_ser10u_4.tif'
+    '10uM/10uM_ser10u_3.tif',
+    '10uM/10uM_ser10u_4.tif',
     '10uM/10uM_ser10u_5.tif'
     ],
 '100nM' : [
     '100nM/100nM_ser100n_1.tif',
     '100nM/100nM_ser100n_2.tif',
-    '100nM/100nM_ser100n_3.tif'
-    '100nM/100nM_ser100n_4.tif'
+    '100nM/100nM_ser100n_3.tif',
+    '100nM/100nM_ser100n_4.tif',
     '100nM/100nM_ser100n_5.tif'
     ],
 '100um' : [
     '100uM/100uM_ser100u_1.tif',
     '100uM/100uM_ser100u_2.tif',
-    '100uM/100uM_ser100u_3.tif'
-    '100uM/100uM_ser100u_4.tif'
+    '100uM/100uM_ser100u_3.tif',
+    '100uM/100uM_ser100u_4.tif',
     '100uM/100uM_ser100u_5.tif'
     ],
 'MotMed' : [
