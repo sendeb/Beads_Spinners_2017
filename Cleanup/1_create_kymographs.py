@@ -19,39 +19,7 @@ frames = [np.reshape(f, (-1, raw_frames[0].shape[0], raw_frames[0].shape[1]) )[0
 frame_0 = frames[0]
 frame_1 = frames[1]
 
-
-
-
 ###############################################################
-save_cell = False
-
-def press_for_cycle(event):
-  global save_cell
-  if event.key == 'n':
-     save_cell = False
-     plt.close()
-  if event.key == 'c':
-     cycle()
-  if event.key == 'escape':
-    print('Exiting!')
-    exit(0)
-  if event.key == 'y':
-    save_cell = True
-  # else:
-  #   plt.close()
-
-def cycle():
-    freq = 0.5 # how fast to switch between frames
-    T = 10./2 # duration of frame switches
-    for i in range(int(T/freq)):
-        ax1.imshow(frame_0, aspect='equal')
-        fig1.canvas.draw()
-        plt.pause(freq)
-        print 'i', i
-
-        ax1.imshow(frame_1, aspect='equal')
-        fig1.canvas.draw()
-        plt.pause(freq)
 
 #################################################################
 

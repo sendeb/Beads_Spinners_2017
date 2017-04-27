@@ -4,11 +4,11 @@ import numpy as np
 from math import radians, sin, cos, floor
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-# import trackpy as tp
+import trackpy as tp
 import scipy
 import pims
 from scipy import interpolate, signal
-# import cv2
+import cv2
 import time
 import xml.etree.ElementTree
 import tifffile
