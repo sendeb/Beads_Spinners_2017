@@ -1,4 +1,4 @@
-#from utilities import *
+from utilities import *
 import numpy as np
 import sys
 
@@ -11,28 +11,12 @@ import sys
 #			for each time step, the value of that feature for
 #			the particular bacterium.
 
-paths = {
-'100nM' : ['100nM_3ms_LV12_Stream0_traces.npy',
-'100nM_3ms_LV12_Stream1_traces.npy',
-'100nM_3ms_LV12_Stream2_traces.npy'],
-'100uM':['100uM_3ms_LV12_Stream0_traces.npy',
-'100uM_3ms_LV12_Stream1_traces.npy',
-'100uM_3ms_LV12_Stream2_traces.npy'],
-'10uM' : ['10uM_3ms_LV12_Stream0_traces.npy',
-'10uM_3ms_LV12_Stream1_traces.npy',
-'10uM_3ms_LV12_Stream2_traces.npy'],
-'1mM': ['1mM_Stream133wssecondsafter_serine1milmol3msexposure_lampv7_55fps_traces.npy',
-'1mM_Stream2_serine1milmol3msexposure_lampv7_55fps_traces.npy',
-'1mM_Stream3_serine1milmol3msexposure_lampv7_55fps_traces.npy'],
-'1uM' : ['1uM_3ms_LV12_Stream0_traces.npy',
-'1uM_3ms_LV12_Stream1_traces.npy',
-'1uM_3ms_LV12_Stream2_traces.npy'],
-'MotMed' : [ 'MotMed_3ms_LV12_Stream0_traces.npy',
-'MotMed_3ms_LV12_Stream1_traces.npy',
-'MotMed_3ms_LV12_Stream2_traces.npy',
-'MotMed_Stream1_motmed3msexposure_lampv7_55fps_traces.npy',
-'MotMed_Stream2_motmed3msexposure_lampv7_55fps_traces.npy'] }
 fps = 55.0 # NOTE: CHANGE ME!!!! :NOTE
+features = 	{
+        'bias'				:	[],
+        'ccw_MISI'			:	[],
+        'cw_MISI'			:	[],
+      }
 
 def get_video_path(args):
     # Arg1 = folder w/ concentration. Arg2 = stream number in that folder (see paths dict)
@@ -128,18 +112,12 @@ def compute_features_for_each_trace():
 if __name__ == '__main__':
   traces = []
   concentrations = ['MotMed', '1uM', '10uM', '100uM', '100nM', '1mM']
-  for concentration in concentrations:
-    video_name = '/' + concentration 
+  for concentration in concentrations: # aggregating ALL traces for one concentration
     for trace_path in paths[concentration]: # get all traces for this conc (flatten into groups of conc.)
-      stream = np.load('traces/' + trace_path)
-      for tr in stream:
-        traces.append(tr)
+      all_traces_for_one_stream = np.load('traces/' + trace_path)
+      for trace in all_traces_for_one_stream: 
+        traces.append(trace)
 
-    features = 	{
-            'bias'								:	[],
-            'ccw_MISI'			:	[],
-            'cw_MISI'			:	[],
-          }
 
     # TODO:
     '''
@@ -150,11 +128,8 @@ if __name__ == '__main__':
     '''
 
     # Modifies features dict
-    compute_features_for_each_trace()
-    # add prefix?
-    np.save('features' + video_name + '_features', features)
+    compute_features_for_each_trace() # compute features using ALL traces from ONE concentration
+    np.save('features/' + concentration + '_features', features)
 
     # To open, run:
-    # features = np.load('features' + video_name + '_features.npy')[()] # Note: [()] allows us to load the dict() we saved.
-
-    # plot distribution of bias and mean_is_interval for each concentration?
+    # features = np.load('features/' + concentration + '_features.npy')[()] # Note: Use [()], which allows us to load the dict() we saved as a .npy file.

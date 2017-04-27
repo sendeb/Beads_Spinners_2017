@@ -4,7 +4,7 @@ from utilities import *
 from matplotlib.patches import Circle
 from matplotlib import animation
 
-mpl.rc('figure',  figsize=(8, 5))
+
 
 video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
@@ -18,10 +18,6 @@ frames = [np.reshape(f, (-1, raw_frames[0].shape[0], raw_frames[0].shape[1]) )[0
 #need these for cycling through cells
 frame_0 = frames[0]
 frame_1 = frames[1]
-
-###############################################################
-
-#################################################################
 
 if len(sys.argv) >= 4 and sys.argv[3] == '--s':
     Show=True
@@ -66,7 +62,7 @@ filtered_set = set()
 
 fig, ax = plt.subplots()
 im=ax.imshow(frame_0, aspect='equal')
-F = ax.scatter(x=[c[0] for c in centers], y=[c[1] for c in centers], facecolors=len(centers)*["none"], color=len(centers)*["blue"], picker = 5)  # 5 points tolerance
+F = ax.scatter(x=[c[0] for c in centers], y=[c[1] for c in centers], s=240, facecolors=len(centers)*["none"], color=len(centers)*["blue"], picker=5)  # 5 points tolerance
 
 def on_pick(event):
     ind = event.ind[0]
@@ -83,6 +79,7 @@ def init():
 
 on0 = False
 def animate(i):
+    print "eye", i
     global on0
     if on0:
         im.set_data(frame_0)
@@ -98,6 +95,8 @@ plt.show()
 filtered_centers = list(filtered_set)
 filtered_centers = [list(c) for c in filtered_centers]
 
+num_filtered_centers = len(filtered_centers)
+
 #################################################################
 #################################################################
 #################################################################
@@ -107,9 +106,9 @@ w, l = 2.45, radius # choose dimensions of rotating window
 mymask = np.array([[w,0],[-w,0],[-w,l],[w,l]])
 
 kymograph_images = []
-for cell_num in range(num_elems): #### NOTE: For now only 10 cells until we get things working! ####
+for cell_num in range(num_filtered_centers): #### NOTE: For now only 10 cells until we get things working! ####
     t0 = time.time()
-    print 'Percent complete:', cell_num*100./num_elems, '%'
+    print 'Percent complete:', cell_num*100./num_filtered_centers, '%'
     unprocessed_kymograph = build_kymograph(cell_num, frames, mymask, filtered_centers, Show=Show)
     print "step1", time.time() - t0
     # kymograph = invert_colors(unprocessed_kymograph) -- this line for black cells on white background
