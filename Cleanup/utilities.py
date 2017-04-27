@@ -16,6 +16,7 @@ from datetime import datetime
 import metamorph_timestamps
 from scipy.ndimage.filters import median_filter
 import sys
+import os
 
 mpl.rc('figure',  figsize=(16, 10))
 mpl.rc('image', cmap='gray')
@@ -25,6 +26,7 @@ mpl.rc('image', cmap='gray')
 ## TODO: notice how tif files now have prefix!!!
 ### We will have to change how code SAVES and OPENS tifs/params/kymos/etc so that pipeline runs smoothly.
 
+concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 
 # Format strings as CONCENTRATION/CONCENTRATION_STREAMNAME.tif
 paths = {
@@ -65,6 +67,9 @@ angs = []
 # Set this!
 for i in np.linspace(0, 360, 12): #select num. intervals per circle.
     angs.append(i)
+
+def create_directories(list_of_directories):
+    map(os.mkdir, filter(lambda dir : not os.path.isdir(dir), list_of_directories))
 
 def get_video_path(args):
     # Arg1 = folder w/ concentration. Arg2 = stream number in that folder (see paths dict)

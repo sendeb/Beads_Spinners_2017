@@ -4,7 +4,16 @@ from utilities import *
 # [Concentration] [File No. in paths dictionary]
 # (See utilities.py)
 
+## Setting up directories to save data in
+## expecting the working directory to contain folders with data from each concentration. See utilities.py.
+required_directories = ["./params", "./features", "./traces", "./kymographs"]
+create_directories(required_directories)
+for D in required_directories:
+	print D
+	create_directories(map(lambda concentration : D + '/' + concentration, concentrations))
+
 video_name, videos_dir = get_video_path(sys.argv)
+print video_name, videos_dir
 fname = videos_dir + video_name
 tifname = fname + '.tif'
 raw_frames = pims.TiffStack(tifname, as_grey=False)
@@ -30,17 +39,17 @@ f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass)
 f = f[(f['ecc'] < ecc)]
 
 # Uncomment below to view distribution of a value.
-if len(sys.argv) >= 4 and sys.argv[3] == '--v':
+if len(sys.argv) >= 4 and sys.argv[3] == '--s':
     fig, ax = plt.subplots()
     ax.hist(f['mass'], bins=20)
     # Optionally, label the axes.
-    ax.set(xlabel='mass', ylabel='count');
+    ax.set(xlabel='mass', ylabel='count')
     fig.canvas.mpl_connect('key_press_event', press)
     ax.set_title('Is this a good choice of parameters? If yes, press \'y\', else press ESC.')
     plt.show()
 
-### REMEMBER TO SAVE PARAMS IN DICTIONARY
-#### ANDDDDD EXTRACT PARAMS IN CREATE_KYMOGRAPHS.py !!!!!!!!!!!!!
+### REMEMBER TO SAVE ADDITIONAL PARAMS IN DICTIONARY
+#### ANDDDDD CHANGE CODE WHICH EXTRACTS PARAMS IN 1_CREATE_KYMOGRAPHS.py !!!!!!!!!!!!!
 
 #check if mean image params are good: diameter, ecc, mimass
 fig, ax = plt.subplots()
@@ -53,6 +62,6 @@ tp.annotate(f, avg)
 # Parameters are the variables that result in the current
 # annotated (circled) average image.
 params = {'ecc' : ecc, 'diameter': diameter, 'minmass' : minmass}
-np.save('params' + video_name + '_params', params)
+np.save('params/' + videos_dir + video_name + '_params', params)
 print('Sucessfully saved!')
 exit(0)
