@@ -29,39 +29,130 @@ mpl.rc('image', cmap='gray')
 concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 
 # Format strings as CONCENTRATION/CONCENTRATION_STREAMNAME.tif
+# This assumes entire data set is for one amino acid. You could add in concentrations list leu100nM, ser100nM (and change paths accordingly) to aggregate multiple amino acids.
+# paths = {
+# '1mM': [
+#     '1mM/1mM_Stream2_serine1milmol3msexposure_lampv7_55fps.tif',
+#     '1mM/1mM_Stream3_serine1milmol3msexposure_lampv7_55fps.tif', # move to correct folder
+#     '1mM/1mM_Stream133wssecondsafter_serine1milmol3msexposure_lampv7_55fps.tif'],
+# '1uM' : [
+#     '1uM/1uM_3ms_LV12_Stream0.tif',
+#     '1uM/1uM_3ms_LV12_Stream1.tif',
+#     '1uM/1uM_3ms_LV12_Stream2.tif'
+#     ],
+# '10uM' : [
+#     '10uM/10uM_3ms_LV12_Stream0.tif',
+#     '10uM/10uM_3ms_LV12_Stream1.tif',
+#     '10uM/10uM_3ms_LV12_Stream2.tif'
+#     ],
+# '100nM' : [
+#     '100nM/100nM_3ms_LV12_Stream0.tif',
+#     '100nM/100nM_3ms_LV12_Stream1.tif',
+#     '100nM/100nM_3ms_LV12_Stream2.tif'
+#     ],
+# '100um' : [
+#     '100uM/100uM_3ms_LV12_Stream0.tif',
+#     '100uM/100uM_3ms_LV12_Stream1.tif',
+#     '100uM/100uM_3ms_LV12_Stream2.tif'
+#     ],
+# 'MotMed' : [
+#     'MotMed/MotMed_3ms_LV12_Stream0.tif',
+#     'MotMed/MotMed_Stream1_motmed3msexposure_lampv7_55fps.tif',
+#     'MotMed/MotMed_Stream2_motmed3msexposure_lampv7_55fps.tif', # actually in 1mM, move to correct folder
+#     'MotMed/MotMed_3ms_LV12_Stream1.tif',
+#     'MotMed/MotMed_3ms_LV12_Stream2.tif'
+#     ]
+# }
+
+#for Serine
 paths = {
 '1mM': [
-    '1mM/1mM_Stream2_serine1milmol3msexposure_lampv7_55fps.tif',
-    '1mM/1mM_Stream3_serine1milmol3msexposure_lampv7_55fps.tif', # move to correct folder
-    '1mM/1mM_Stream133wssecondsafter_serine1milmol3msexposure_lampv7_55fps.tif'],
+    '1mM/1mM_ser1m_1.tif',
+    '1mM/1mM_ser1m_2.tif',
+    '1mM/1mM_ser1m_3.tif',
+    '1mM/1mM_ser1m_4.tif', # move to correct folder
+    '1mM/1mM_ser1m_5.tif'],
 '1uM' : [
-    '1uM/1uM_3ms_LV12_Stream0.tif',
-    '1uM/1uM_3ms_LV12_Stream1.tif',
-    '1uM/1uM_3ms_LV12_Stream2.tif'
+    '1uM/1uM_ser1u_1.tif',
+    '1uM/1uM_ser1u_2.tif',
+    '1uM/1uM_ser1u_3.tif',
+    '1uM/1uM_ser1u_4.tif',
+    '1uM/1uM_ser1u_5.tif'
     ],
 '10uM' : [
-    '10uM/10uM_3ms_LV12_Stream0.tif',
-    '10uM/10uM_3ms_LV12_Stream1.tif',
-    '10uM/10uM_3ms_LV12_Stream2.tif'
+    '10uM/10uM_ser10u_1.tif',
+    '10uM/10uM_ser10u_2.tif',
+    '10uM/10uM_ser10u_3.tif'
+    '10uM/10uM_ser10u_4.tif'
+    '10uM/10uM_ser10u_5.tif'
     ],
 '100nM' : [
-    '100nM/100nM_3ms_LV12_Stream0.tif',
-    '100nM/100nM_3ms_LV12_Stream1.tif',
-    '100nM/100nM_3ms_LV12_Stream2.tif'
+    '100nM/100nM_ser100n_1.tif',
+    '100nM/100nM_ser100n_2.tif',
+    '100nM/100nM_ser100n_3.tif'
+    '100nM/100nM_ser100n_4.tif'
+    '100nM/100nM_ser100n_5.tif'
     ],
 '100um' : [
-    '100uM/100uM_3ms_LV12_Stream0.tif',
-    '100uM/100uM_3ms_LV12_Stream1.tif',
-    '100uM/100uM_3ms_LV12_Stream2.tif'
+    '100uM/100uM_ser100u_1.tif',
+    '100uM/100uM_ser100u_2.tif',
+    '100uM/100uM_ser100u_3.tif'
+    '100uM/100uM_ser100u_4.tif'
+    '100uM/100uM_ser100u_5.tif'
     ],
 'MotMed' : [
-    # 'MotMed/MotMed_3ms_LV12_Stream0.tif',
-    # 'MotMed/MotMed_Stream1_motmed3msexposure_lampv7_55fps.tif',
-    # 'MotMed/MotMed_Stream2_motmed3msexposure_lampv7_55fps.tif', # actually in 1mM, move to correct folder
-    # 'MotMed/MotMed_3ms_LV12_Stream1.tif',
-    'MotMed/MotMed_3ms_LV12_Stream2.tif'
+    'MotMed/MotMed_mm_1.tif',
+    'MotMed/MotMed_mm_2.tif',
+    'MotMed/MotMed_mm_3.tif', # actually in 1mM, move to correct folder
+    'MotMed/MotMed_mm_4.tif',
+    'MotMed/MotMed_mm_5.tif'
     ]
 }
+
+# paths = {
+# '1mM': [
+#     '1mM/1mM_leu1m_1.tif',
+#     '1mM/1mM_leu1m_2.tif',
+#     '1mM/1mM_leu1m_3.tif',
+#     '1mM/1mM_leu1m_4.tif', # move to correct folder
+#     '1mM/1mM_leu1m_5.tif'],
+# '1uM' : [
+#     '1uM/1uM_leu1u_1.tif',
+#     '1uM/1uM_leu1u_2.tif',
+#     '1uM/1uM_leu1u_3.tif',
+#     '1uM/1uM_leu1u_4.tif',
+#     '1uM/1uM_leu1u_5.tif'
+#     ],
+# '10uM' : [
+#     '10uM/10uM_leu10u_1.tif',
+#     '10uM/10uM_leu10u_2.tif',
+#     '10uM/10uM_leu10u_3.tif'
+#     '10uM/10uM_leu10u_4.tif'
+#     '10uM/10uM_leu10u_5.tif'
+#     ],
+# '100nM' : [
+#     '100nM/100nM_leu100n_1.tif',
+#     '100nM/100nM_leu100n_2.tif',
+#     '100nM/100nM_leu100n_3.tif'
+#     '100nM/100nM_leu100n_4.tif'
+#     '100nM/100nM_leu100n_5.tif'
+#     ],
+# '100um' : [
+#     '100uM/100uM_leu100u_1.tif',
+#     '100uM/100uM_leu100u_2.tif',
+#     '100uM/100uM_leu100u_3.tif'
+#     '100uM/100uM_leu100u_4.tif'
+#     '100uM/100uM_leu100u_5.tif'
+#     ],
+# 'MotMed' : [
+#     'MotMed/MotMed_mm_1.tif',
+#     'MotMed/MotMed_mm_2.tif',
+#     'MotMed/MotMed_mm_3.tif', # actually in 1mM, move to correct folder
+#     'MotMed/MotMed_mm_4.tif',
+#     'MotMed/MotMed_mm_5.tif'
+#     ]
+# }
+
 
 angs = []
 # Set this!

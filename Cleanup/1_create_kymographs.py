@@ -4,8 +4,6 @@ from utilities import *
 from matplotlib.patches import Circle
 from matplotlib import animation
 
-
-
 video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
 # fname = argv[1]
@@ -14,6 +12,19 @@ meta = metamorph_timestamps.get(tifname)
 raw_frames = pims.TiffStack(tifname, as_grey=False)
 frames = [np.fromstring(f.data, dtype=np.int16) for f in raw_frames] # int16 may have to change depending on dtype
 frames = [np.reshape(f, (-1, raw_frames[0].shape[0], raw_frames[0].shape[1]) )[0] for f in frames]
+
+
+#*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^
+#*^*^*^*^*^*^*^*^*^*^*^       Inverting Image          *^*^*^*^*^*^*^*^*^*^*^*^*^*^
+#*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^
+
+# If we have BLACK cells on WHITE background, UNCOMMENT me!
+frames = [np.invert(frame, dtype=np.int16) for frame in frames]
+
+#*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^
+#*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^
+#*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^
+
 
 #need these for cycling through cells
 frame_0 = frames[0]
