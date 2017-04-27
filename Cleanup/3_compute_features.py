@@ -52,7 +52,7 @@ def compute_bias(trace, window=7, first=None):
   bias = []
   
   # 1. Derivative of 1D signal. (Angular velocity) Use to get signs, which tell us CCW or CW. 
-  conv = np.convolve([-1.,1], trace, mode='full')
+  conv = np.convolve([-1.,1], trace, mode='full') # SHOULD WE UNWRAP?
   # Optionally: 
   #				median_filtered_conv = median_filter(conv, 7) # pick window size based on result. second arg is odd number.
 
