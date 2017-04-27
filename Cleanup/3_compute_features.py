@@ -1,6 +1,4 @@
 from utilities import *
-import numpy as np
-import sys
 
 # Input: some traces .npy (cols = time steps, rows = bact #)
 #				2D arrays are a list of traces, each trace is one element in the list.
@@ -12,18 +10,7 @@ import sys
 #			the particular bacterium.
 
 fps = 55.0 # NOTE: CHANGE ME!!!! :NOTE
-features = 	{
-        'bias'				:	[],
-        'ccw_MISI'			:	[],
-        'cw_MISI'			:	[],
-      }
-
-def get_video_path(args):
-    # Arg1 = folder w/ concentration. Arg2 = stream number in that folder (see paths dict)
-    path = paths[args[1]][int(args[2])]
-    videos_dir = unicode.join('/', unicode.split(path, '/')[:-1])
-    video_name = unicode.split(unicode.split(path, '/')[-1], '.')[0]
-    return '/' + str(video_name), str(videos_dir)
+features = ['bias', 'ccw_MISI', 'cw_MISI']
 
 interval_bias = lambda s: np.sum((-np.array(s)+1)/2)/len(s) # CCW / (CCW + CW); s is interval over which to compute bias, s is signs of rotation direction. NOTE: correct if cw is positive, ccw is negative.
 
@@ -118,18 +105,9 @@ if __name__ == '__main__':
       for trace in all_traces_for_one_stream: 
         traces.append(trace)
 
-
-    # TODO:
-    '''
-    TODO: Remove paths dict and other code above and revert to:
-    video_name, videos_dir = get_video_path(sys.argv)
-    print video_name, videos_dir
-    traces = np.load('traces' + video_name + '_traces.npy')
-    '''
-
     # Modifies features dict
     compute_features_for_each_trace() # compute features using ALL traces from ONE concentration
-    np.save('features/' + concentration + '_features', features)
+    np.save('features/' + concentration + "/" + concentration + '_features', features)
 
-    # To open, run:
-    # features = np.load('features/' + concentration + '_features.npy')[()] # Note: Use [()], which allows us to load the dict() we saved as a .npy file.
+    # To load:
+    # Note: Use [()], which allows us to load the dict() we saved as a .npy file.

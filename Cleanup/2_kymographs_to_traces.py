@@ -8,7 +8,7 @@ fname = videos_dir + video_name
 tifname = fname + '.tif'
 meta = metamorph_timestamps.get(tifname)
 ang_chunks = 12
-kymograph_images = np.load('kymographs' + video_name + '_kymographs.npy') # maybe have to do [()]
+kymographs = np.load('kymographs/' + videos_dir + video_name + '_kymographs.npy')
 num_elems = len(kymograph_images)
 bacterial_traces = []
 
@@ -31,6 +31,8 @@ for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For
 			plt.plot(trace[:500], 'r-', lw = 3)
 			plt.show()
 
-np.save('traces' + video_name + '_traces', bacterial_traces)
-print_to_csv(bacterial_traces, 'traces' + video_name + '_traces_csv', meta, tifname) # do later
+np.save('traces/' + videos_dir + video_name + '_traces', bacterial_traces)
+print_to_csv(bacterial_traces, 'traces/' + videos_dir + video_name + '_traces_csv', meta, tifname) # do later
+# kymographs = np.load('kymographs/' + videos_dir + video_name + '_kymographs.npy')
+
 print('Sucessfully saved CSV!')

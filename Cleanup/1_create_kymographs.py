@@ -30,7 +30,7 @@ for i in range(len(frames)):
     bit_frames.append(convert_to_8bit(frames[i]))
 frames = np.array(bit_frames)
 
-params = np.load('params' + video_name + '_params.npy')[()] # dict created in 0_save_params.py
+params = np.load('params/' + videos_dir + video_name + '_params.npy')[()] # dict created in 0_save_params.py
 diameter = params['diameter']
 ecc = params['ecc']
 minmass = params['minmass']
@@ -116,6 +116,5 @@ for cell_num in range(num_filtered_centers): #### NOTE: For now only 10 cells un
     kymograph_images.append(processed_kymograph)
     print "step2", time.time() - t0
 
-np.save('kymographs' + video_name + '_kymographs', kymograph_images)
-kymographs = np.load('kymographs' + video_name + '_kymographs.npy')
+np.save('kymographs/' + videos_dir + video_name + '_kymographs', kymograph_images)
 print('Sucessfully saved!')

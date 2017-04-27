@@ -8,6 +8,7 @@ from utilities import *
 ## expecting the working directory to contain folders with data from each concentration. See utilities.py.
 required_directories = ["./params", "./features", "./traces", "./kymographs"]
 create_directories(required_directories)
+create_directories(concentrations)
 for D in required_directories:
 	print D
 	create_directories(map(lambda concentration : D + '/' + concentration, concentrations))
