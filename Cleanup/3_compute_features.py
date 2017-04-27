@@ -10,7 +10,7 @@ from utilities import *
 #			the particular bacterium.
 
 fps = 55.0 # NOTE: CHANGE ME!!!! :NOTE
-features = ['bias', 'ccw_MISI', 'cw_MISI']
+features = {'bias' : [], 'ccw_MISI' : [], 'cw_MISI' : []}
 
 interval_bias = lambda s: np.sum((-np.array(s)+1)/2)/len(s) # CCW / (CCW + CW); s is interval over which to compute bias, s is signs of rotation direction. NOTE: correct if cw is positive, ccw is negative.
 
@@ -98,10 +98,9 @@ def compute_features_for_each_trace():
 
 if __name__ == '__main__':
   traces = []
-  concentrations = ['MotMed', '1uM', '10uM', '100uM', '100nM', '1mM']
   for concentration in concentrations: # aggregating ALL traces for one concentration
     for trace_path in paths[concentration]: # get all traces for this conc (flatten into groups of conc.)
-      all_traces_for_one_stream = np.load('traces/' + trace_path)
+      all_traces_for_one_stream = np.load('traces/' + trace_path.split('.')[0] + "_traces.npy")
       for trace in all_traces_for_one_stream: 
         traces.append(trace)
 

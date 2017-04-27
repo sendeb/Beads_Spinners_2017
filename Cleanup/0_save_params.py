@@ -10,7 +10,6 @@ required_directories = ["./params", "./features", "./traces", "./kymographs"]
 create_directories(required_directories)
 create_directories(concentrations)
 for D in required_directories:
-	print D
 	create_directories(map(lambda concentration : D + '/' + concentration, concentrations))
 
 video_name, videos_dir = get_video_path(sys.argv)

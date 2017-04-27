@@ -55,10 +55,10 @@ paths = {
     '100uM/100uM_3ms_LV12_Stream2.tif'
     ],
 'MotMed' : [
-    'MotMed/MotMed_3ms_LV12_Stream0.tif',
-    'MotMed/MotMed_Stream1_motmed3msexposure_lampv7_55fps.tif',
-    'MotMed/MotMed_Stream2_motmed3msexposure_lampv7_55fps.tif', # actually in 1mM, move to correct folder
-    'MotMed/MotMed_3ms_LV12_Stream1.tif',
+    # 'MotMed/MotMed_3ms_LV12_Stream0.tif',
+    # 'MotMed/MotMed_Stream1_motmed3msexposure_lampv7_55fps.tif',
+    # 'MotMed/MotMed_Stream2_motmed3msexposure_lampv7_55fps.tif', # actually in 1mM, move to correct folder
+    # 'MotMed/MotMed_3ms_LV12_Stream1.tif',
     'MotMed/MotMed_3ms_LV12_Stream2.tif'
     ]
 }
