@@ -8,7 +8,6 @@ from utilities import *
 #			each array represents some feature, and
 #			for each time step, the value of that feature for
 #			the particular bacterium.
-
 video_name, videos_dir = get_video_path(sys.argv)
 print video_name, videos_dir
 traces = np.load('traces' + video_name + '_traces.npy')
@@ -28,7 +27,9 @@ def compute_bias(trace, window=7):
 	bias = []
 	
 	# 1. Derivative of 1D signal. (Angular velocity) Use to get signs, which tell us CCW or CW. 
+	trace = np.unwrap(np.deg2rad(trace), discont=8*np.pi/9) #### HUHH??? what u want heer?
 	conv = np.convolve([-1.,1], trace, mode='full')
+	print max(abs(conv))
 	# Optionally: 
 	#				median_filtered_conv = median_filter(conv, 7) # pick window size based on result. second arg is odd number.
 
@@ -86,4 +87,4 @@ if __name__ == '__main__':
 	# To open, run:
 	# features = np.load('features' + video_name + '_features.npy')[()] # Note: [()] allows us to load the dict() we saved.
 
-	# plot distribution of bias and mean_is_interval for each concentration?
+	# plot distribution of bias and mean_is_interval for each concentration? (for each bacterium, x axis is a bucket and y axis is number: histogram for each )

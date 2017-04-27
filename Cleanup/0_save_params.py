@@ -3,6 +3,7 @@ from utilities import *
 #  Ex. python traces.py 1mM 2
 # [Concentration] [File No. in paths dictionary]
 # (See utilities.py)
+
 video_name, videos_dir = get_video_path(sys.argv)
 fname = videos_dir + video_name
 tifname = fname + '.tif'
@@ -15,6 +16,7 @@ for i in range(len(frames)):
     bit_frames.append(convert_to_8bit(frames[i]))
 frames = np.array(bit_frames)
 
+#avg is the average along the z axis of the image stack aka average image
 avg = np.mean(frames, axis = 0)
 
 # Set parameters.
@@ -40,10 +42,12 @@ if len(sys.argv) >= 4 and sys.argv[3] == '--v':
 ### REMEMBER TO SAVE PARAMS IN DICTIONARY
 #### ANDDDDD EXTRACT PARAMS IN CREATE_KYMOGRAPHS.py !!!!!!!!!!!!!
 
+#check if mean image params are good: diameter, ecc, mimass
 fig, ax = plt.subplots()
 fig.canvas.mpl_connect('key_press_event', press)
 ax.set_title('Is this a good choice of parameters? If yes, press \'y\', else press ESC.')
 tp.annotate(f, avg)
+
 
 # If got this far, save paramters to file: VIDEONAME + params .npy
 # Parameters are the variables that result in the current
