@@ -111,8 +111,9 @@ num_filtered_centers = len(filtered_centers)
 #################################################################
 #################################################################
 
-radius = 8 # pixel radius of cell == length of filter
-w, l = 2.45, radius # choose dimensions of rotating window
+### CHANGE RADIUS and W; view with "--s" to see if window is big enough.
+radius = 6 # pixel radius of cell == length of filter
+w, l = 1.5, radius # choose dimensions of rotating window
 mymask = np.array([[w,0],[-w,0],[-w,l],[w,l]])
 
 kymograph_images = []

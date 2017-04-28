@@ -38,12 +38,17 @@ frames = np.array(bit_frames)
 #avg is the average along the z axis of the image stack aka average image
 avg = np.mean(frames, axis = 0)
 
-# Set parameters.
+##################################################################################
+#######################       SET Parameters      ################################
+##################################################################################
+
 diameter = 3 ## approximate size in pixels of object you're trying to locate.
 ecc = 0.7 # 0 means circular
 minmass = 100 ## min integral of brightness for a particle
-# topn = 20 # max number of cells
-#possibly filter particles using ecc vals stationary cells will not look circular
+
+##################################################################################
+##################################################################################
+##################################################################################
 
 f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass)
 f = f[(f['ecc'] < ecc)]

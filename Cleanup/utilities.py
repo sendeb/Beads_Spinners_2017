@@ -23,6 +23,9 @@ mpl.rc('image', cmap='gray')
 
 ## Paths to our files. Update as data is recorded.
 
+# HOW TO ADD A PREFIX TO ALL FILES IN A DIRECTORY:
+# for f in * ; do mv "$f" "PREFIX_$f" ; done
+
 ## TODO: notice how tif files now have prefix!!!
 ### We will have to change how code SAVES and OPENS tifs/params/kymos/etc so that pipeline runs smoothly.
 
@@ -50,7 +53,7 @@ concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 #     '100nM/100nM_3ms_LV12_Stream1.tif',
 #     '100nM/100nM_3ms_LV12_Stream2.tif'
 #     ],
-# '100um' : [
+# '100uM' : [
 #     '100uM/100uM_3ms_LV12_Stream0.tif',
 #     '100uM/100uM_3ms_LV12_Stream1.tif',
 #     '100uM/100uM_3ms_LV12_Stream2.tif'
@@ -70,7 +73,7 @@ paths = {
     '1mM/1mM_ser1m_1.tif',
     '1mM/1mM_ser1m_2.tif',
     '1mM/1mM_ser1m_3.tif',
-    '1mM/1mM_ser1m_4.tif', # move to correct folder
+    '1mM/1mM_ser1m_4.tif',
     '1mM/1mM_ser1m_5.tif'
     ],
 '1uM' : [
@@ -94,7 +97,7 @@ paths = {
     '100nM/100nM_ser100n_4.tif',
     '100nM/100nM_ser100n_5.tif'
     ],
-'100um' : [
+'100uM' : [
     '100uM/100uM_ser100u_1.tif',
     '100uM/100uM_ser100u_2.tif',
     '100uM/100uM_ser100u_3.tif',
@@ -104,56 +107,11 @@ paths = {
 'MotMed' : [
     'MotMed/MotMed_mm_1.tif',
     'MotMed/MotMed_mm_2.tif',
-    'MotMed/MotMed_mm_3.tif', # actually in 1mM, move to correct folder
+    'MotMed/MotMed_mm_3.tif',
     'MotMed/MotMed_mm_4.tif',
     'MotMed/MotMed_mm_5.tif'
     ]
 }
-
-# paths = {
-# '1mM': [
-#     '1mM/1mM_leu1m_1.tif',
-#     '1mM/1mM_leu1m_2.tif',
-#     '1mM/1mM_leu1m_3.tif',
-#     '1mM/1mM_leu1m_4.tif', # move to correct folder
-#     '1mM/1mM_leu1m_5.tif'],
-# '1uM' : [
-#     '1uM/1uM_leu1u_1.tif',
-#     '1uM/1uM_leu1u_2.tif',
-#     '1uM/1uM_leu1u_3.tif',
-#     '1uM/1uM_leu1u_4.tif',
-#     '1uM/1uM_leu1u_5.tif'
-#     ],
-# '10uM' : [
-#     '10uM/10uM_leu10u_1.tif',
-#     '10uM/10uM_leu10u_2.tif',
-#     '10uM/10uM_leu10u_3.tif'
-#     '10uM/10uM_leu10u_4.tif'
-#     '10uM/10uM_leu10u_5.tif'
-#     ],
-# '100nM' : [
-#     '100nM/100nM_leu100n_1.tif',
-#     '100nM/100nM_leu100n_2.tif',
-#     '100nM/100nM_leu100n_3.tif'
-#     '100nM/100nM_leu100n_4.tif'
-#     '100nM/100nM_leu100n_5.tif'
-#     ],
-# '100um' : [
-#     '100uM/100uM_leu100u_1.tif',
-#     '100uM/100uM_leu100u_2.tif',
-#     '100uM/100uM_leu100u_3.tif'
-#     '100uM/100uM_leu100u_4.tif'
-#     '100uM/100uM_leu100u_5.tif'
-#     ],
-# 'MotMed' : [
-#     'MotMed/MotMed_mm_1.tif',
-#     'MotMed/MotMed_mm_2.tif',
-#     'MotMed/MotMed_mm_3.tif', # actually in 1mM, move to correct folder
-#     'MotMed/MotMed_mm_4.tif',
-#     'MotMed/MotMed_mm_5.tif'
-#     ]
-# }
-
 
 angs = []
 # Set this!
