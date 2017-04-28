@@ -47,7 +47,7 @@ def compute_bias(trace, window=7, first=None):
     bias = interval_bias(interval)
     return bias
 
-def compute_MISI(trace, frames=1700):
+def compute_MISI(trace, frames=800):
   # Output: real number representing average time between switches.
   conv = np.convolve([-1.,1], trace, mode='full')
   signs = np.sign(conv)[:frames]
@@ -100,6 +100,7 @@ if __name__ == '__main__':
   for concentration in concentrations: # aggregating ALL traces for one concentration
     print "On concentration:", concentration
     traces = [] # Reset traces because save features from all traces of a single contration into one file. 
+    features = {'bias' : [], 'ccw_MISI' : [], 'cw_MISI' : []} # Reset features
     for trace_path in paths[concentration]: # get all traces for this conc (flatten into groups of conc.)
       all_traces_for_one_stream = np.load('traces/' + trace_path.split('.')[0] + "_traces.npy")
       for trace in all_traces_for_one_stream:

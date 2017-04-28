@@ -10,8 +10,8 @@ Generate grid of plots:
 
 features = ['bias', 'ccw_MISI', 'cw_MISI']
 feature_xlabels = {'bias' : 'bias', 'ccw_MISI' : 'ccw MISI [s]', 'cw_MISI' : 'cw MISI [s]'}
-feature_xlims = {'bias': (0, 0.6), 'ccw_MISI' : (0, 0.2), 'cw_MISI' : (0.02, 0.06) }
-feature_ylims = {'bias': (0, 0.45), 'ccw_MISI' : (0, 0.667), 'cw_MISI' : (0, 0.45) }
+feature_xlims = {'bias': (0, 0.67), 'ccw_MISI' : (0, 0.2), 'cw_MISI' : (0.01, 0.06) }
+feature_ylims = {'bias': (0, 0.5), 'ccw_MISI' : (0, 0.667), 'cw_MISI' : (0, 0.85) }
 C = len(concentrations)
 fig, axes = plt.subplots(nrows=3, ncols=C)#sharex=True, sharey=True)
 
