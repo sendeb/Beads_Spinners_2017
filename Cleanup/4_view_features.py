@@ -8,7 +8,6 @@ Generate grid of plots:
               3) cw MISI
 '''
 
-
 features = ['bias', 'ccw_MISI', 'cw_MISI']
 feature_xlabels = {'bias' : 'bias', 'ccw_MISI' : 'ccw MISI [s]', 'cw_MISI' : 'cw MISI [s]'}
 feature_xlims = {'bias': (0, 0.6), 'ccw_MISI' : (0, 0.2), 'cw_MISI' : (0.02, 0.06) }
@@ -36,6 +35,7 @@ def plot_data(ax, data, concentration, xlabel, fontsize=12):
   ax.set_title(concentration, fontsize=fontsize)
 
 for c_idx, concentration in enumerate(concentrations):
+  print "On concentration:", concentration
   features = np.load('features/' + concentration + "/" + concentration + '_features.npy')[()] # Note: [()] allows us to load the dict() we saved.
   for f_idx, feature in enumerate(features):
     f = features[feature] # one feature at a time

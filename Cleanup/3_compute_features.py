@@ -1,22 +1,22 @@
 from utilities import *
 
 # Input: some traces .npy (cols = time steps, rows = bact #)
-#				2D arrays are a list of traces, each trace is one element in the list.
+#       2D arrays are a list of traces, each trace is one element in the list.
 #
 # Output: list of 2D arrays containing same number of rows
-#			(one new time series for each bacterium (for each new engineered feature),
-#			each array represents some feature, and
-#			for each time step, the value of that feature for
-#			the particular bacterium.
+#     (one new time series for each bacterium (for each new engineered feature),
+#     each array represents some feature, and
+#     for each time step, the value of that feature for
+#     the particular bacterium.
 
-fps = 55.0 # NOTE: CHANGE ME!!!! :NOTE
+fps = 80.0 # NOTE: CHANGE ME!!!! :NOTE
 features = {'bias' : [], 'ccw_MISI' : [], 'cw_MISI' : []}
 
 interval_bias = lambda s: np.sum((-np.array(s)+1)/2)/len(s) # CCW / (CCW + CW); s is interval over which to compute bias, s is signs of rotation direction. NOTE: correct if cw is positive, ccw is negative.
 
 def compute_bias(trace, window=7, first=None):
   # Input: trace is single bacterium raw time series
-  # 			window is size of widnow over which we (locally) compute bias.
+  #       window is size of widnow over which we (locally) compute bias.
   # Output: time series of bias at all overlapping intervals of window-length.  (len: len(trace) - window)
   # first : if not None, bias on first x frames.
 
@@ -25,17 +25,17 @@ def compute_bias(trace, window=7, first=None):
   # 1. Derivative of 1D signal. (Angular velocity) Use to get signs, which tell us CCW or CW. 
   conv = np.convolve([-1.,1], trace, mode='full') # SHOULD WE UNWRAP?
   # Optionally: 
-  #				median_filtered_conv = median_filter(conv, 7) # pick window size based on result. second arg is odd number.
+  #       median_filtered_conv = median_filter(conv, 7) # pick window size based on result. second arg is odd number.
 
   # 2. Get direction of rotation (CCW & CW)
   signs = np.sign(conv) #Positive values correspond to cw rotation. Negative = ccw rotation.
 
   # Optionally:
-  #				filtered_signs = median_filter(signs, 5) # pick window size based on result. second arg is odd number.
+  #       filtered_signs = median_filter(signs, 5) # pick window size based on result. second arg is odd number.
 
   # 3. Compute bias over each window-length interval
   # no sliding window as here:
-  if first is None: # use overlapping window over whole trace 
+  if first is None: # use overlapping window over whole trace. 4_view_features is not setup to work with this output.
     for i in range(len(trace) - window):
       interval = signs[i:i+window]
       bias.append(interval_bias(interval))
@@ -90,18 +90,19 @@ def compute_MISI(trace, frames=1700):
     
 def compute_features_for_each_trace():
   for trace in traces:
-    biases = compute_bias(trace)
-    ccw_MISI, cw_MISI = compute_MISI(trace)
+    biases = compute_bias(trace, first=800) # Set first and frames so that it's about 10 s of data.
+    ccw_MISI, cw_MISI = compute_MISI(trace, frames=800)
     features['bias'].append(biases)
     features['ccw_MISI'].append(ccw_MISI)
     features['cw_MISI'].append(cw_MISI)
 
 if __name__ == '__main__':
-  traces = []
   for concentration in concentrations: # aggregating ALL traces for one concentration
+    print "On concentration:", concentration
+    traces = [] # Reset traces because save features from all traces of a single contration into one file. 
     for trace_path in paths[concentration]: # get all traces for this conc (flatten into groups of conc.)
       all_traces_for_one_stream = np.load('traces/' + trace_path.split('.')[0] + "_traces.npy")
-      for trace in all_traces_for_one_stream: 
+      for trace in all_traces_for_one_stream:
         traces.append(trace)
 
     # Modifies features dict
