@@ -1,4 +1,15 @@
-from utilities import *
+from __future__ import division, unicode_literals#, print_function
+import numpy as np
+from math import radians, sin, cos, floor
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import time
+import sys
+import os
+
+mpl.rc('figure',  figsize=(16, 10))
+mpl.rc('image', cmap='gray')
+concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 
 # Input: some traces .npy (cols = time steps, rows = bact #)
 #       2D arrays are a list of traces, each trace is one element in the list.
@@ -8,6 +19,66 @@ from utilities import *
 #     each array represents some feature, and
 #     for each time step, the value of that feature for
 #     the particular bacterium.
+paths = {
+'1mM': [
+    '1mM/1mM_ser1m_1.tif',
+    '1mM/1mM_ser1m_2.tif',
+    '1mM/1mM_ser1m_3.tif',
+    '1mM/1mM_ser1m_4.tif',
+    '1mM/1mM_ser1m_5.tif'
+    ],
+'1uM' : [
+    '1uM/1uM_ser1u_1.tif',
+    '1uM/1uM_ser1u_2.tif',
+    '1uM/1uM_ser1u_3.tif',
+    '1uM/1uM_ser1u_4.tif',
+    '1uM/1uM_ser1u_5.tif'
+    ],
+'10uM' : [
+    '10uM/10uM_ser10u_1.tif',
+    '10uM/10uM_ser10u_2.tif',
+    '10uM/10uM_ser10u_3.tif',
+    '10uM/10uM_ser10u_4.tif',
+    '10uM/10uM_ser10u_5.tif'
+    ],
+'100nM' : [
+    '100nM/100nM_ser100n_1.tif',
+    '100nM/100nM_ser100n_2.tif',
+    '100nM/100nM_ser100n_3.tif',
+    '100nM/100nM_ser100n_4.tif',
+    '100nM/100nM_ser100n_5.tif'
+    ],
+'100uM' : [
+    '100uM/100uM_ser100u_1.tif',
+    '100uM/100uM_ser100u_2.tif',
+    '100uM/100uM_ser100u_3.tif',
+    '100uM/100uM_ser100u_4.tif',
+    '100uM/100uM_ser100u_5.tif'
+    ],
+'MotMed' : [
+    'MotMed/MotMed_mm_1.tif',
+    'MotMed/MotMed_mm_2.tif',
+    'MotMed/MotMed_mm_3.tif',
+    'MotMed/MotMed_mm_4.tif',
+    'MotMed/MotMed_mm_5.tif'
+    ]
+}
+
+angs = []
+# Set this!
+for i in np.linspace(0, 360, 12): #select num. intervals per circle.
+    angs.append(i)
+
+def create_directories(list_of_directories):
+    map(os.mkdir, filter(lambda dir : not os.path.isdir(dir), list_of_directories))
+
+def get_video_path(args):
+    # Arg1 = folder w/ concentration. Arg2 = stream number in that folder (see paths dict)
+    path = paths[args[1]][int(args[2])]
+    videos_dir = unicode.join('/', unicode.split(path, '/')[:-1])
+    video_name = unicode.split(unicode.split(path, '/')[-1], '.')[0]
+    return '/' + str(video_name), str(videos_dir)
+
 
 
 
@@ -57,6 +128,7 @@ if __name__ == '__main__':
 
   # The first strain or chemoattractant.
   avg_biases = {}
+  errs = []
   for concentration in concentrations: # aggregating ALL traces for one concentration
     if concentration == 'MotMed':
       continue
@@ -70,10 +142,14 @@ if __name__ == '__main__':
     # Modifies features dict
     compute_features_for_each_trace(first=800) # compute features using ALL traces from ONE concentration
     avg_bias = np.mean(features['bias'])
+    print len(features['bias'])
+    std_err = np.std(features['bias'])/np.sqrt(len(features['bias']))
+    errs.append(std_err)
     avg_biases[conc_map[concentration]] = avg_bias
   
   # For a second strain or chemoattractant.
   avg_biases2 = {}
+  errs2 = []
   for concentration in concentrations: # aggregating ALL traces for one concentration
     if concentration == 'MotMed':
       continue
@@ -87,6 +163,9 @@ if __name__ == '__main__':
     # Modifies features dict
     compute_features_for_each_trace(first=1700) # compute features using ALL traces from ONE concentration
     avg_bias = np.mean(features['bias'])
+    print len(features['bias'])
+    std_err = np.std(features['bias'])/np.sqrt(len(features['bias']))
+    errs2.append(std_err)
     avg_biases2[conc_map[concentration]] = avg_bias
 
     # To load:
@@ -97,8 +176,8 @@ ax = plt.gca()
 plt.title('Bias vs. Concentration')
 plt.xlabel('Concentration of chemoattractant (serine)')
 plt.ylabel('Avergage bias')
-plt.scatter(avg_biases.keys(), avg_biases.values(), c='b', label='Non-adapting')
-plt.scatter(avg_biases2.keys(), avg_biases2.values(), c='g', label='Wild type')
+plt.errorbar(avg_biases.keys(), avg_biases.values(), yerr=errs, c='b', label='Non-adapting', fmt='o')
+plt.errorbar(avg_biases2.keys(), avg_biases2.values(), yerr=errs2, c='g', label='Wild type', fmt='o')
 plt.legend(loc='upper right')
 plt.xscale('log')
 plt.xlim(1*1e-9, 1)
