@@ -71,7 +71,7 @@ filtered_set = set()
 #################################################################
 
 fig, ax = plt.subplots()
-im=ax.imshow(frame_0, aspect='equal')
+im = ax.imshow(show_frames[0], aspect='equal')
 F = ax.scatter(x=[c[0] for c in centers], y=[c[1] for c in centers], s=240, facecolors=len(centers)*["none"], color=len(centers)*["blue"], picker=5)  # 5 points tolerance
 
 def on_pick(event):
@@ -85,14 +85,14 @@ def on_pick(event):
 fig.canvas.mpl_connect('pick_event', on_pick)
 
 def init():
-    im.set_data(frame_0)
+    im.set_data(show_frames[0])
 
 on0 = False
 def animate(i):
     im.set_data(show_frames[i % N])
     return im
 
-anim = animation.FuncAnimation(fig, animate, init_func=init, interval=500)
+anim = animation.FuncAnimation(fig, animate, init_func=init, interval=100)
 plt.show()
 
 # after closing plot:
