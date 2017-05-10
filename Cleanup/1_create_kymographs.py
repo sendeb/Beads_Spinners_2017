@@ -27,8 +27,8 @@ frames = [np.invert(frame, dtype=np.int16) for frame in frames]
 
 
 #need these for cycling through cells
-frame_0 = frames[0]
-frame_1 = frames[1]
+N = 5
+show_frames = frames[0:N]
 
 if len(sys.argv) >= 4 and sys.argv[3] == '--s':
     Show=True
@@ -89,16 +89,10 @@ def init():
 
 on0 = False
 def animate(i):
-    print "eye", i
-    global on0
-    if on0:
-        im.set_data(frame_0)
-    else:
-        im.set_data(frame_1)
-    on0 = not on0
+    im.set_data(show_frames[i % N])
     return im
 
-anim = animation.FuncAnimation(fig, animate, init_func=init, interval=100)
+anim = animation.FuncAnimation(fig, animate, init_func=init, interval=500)
 plt.show()
 
 # after closing plot:

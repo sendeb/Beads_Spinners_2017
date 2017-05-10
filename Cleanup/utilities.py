@@ -257,7 +257,6 @@ def get_date(path_to_tif):
                     first = neighbor.attrib['value']
                     return first
 
-
 def print_to_csv(data, fname, meta, tifname):
     acquisition_time = get_date(tifname)
     with open(fname + ".csv", "wb") as f:
