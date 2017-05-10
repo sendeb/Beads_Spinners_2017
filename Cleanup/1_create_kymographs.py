@@ -87,7 +87,6 @@ fig.canvas.mpl_connect('pick_event', on_pick)
 def init():
     im.set_data(show_frames[0])
 
-on0 = False
 def animate(i):
     im.set_data(show_frames[i % N])
     return im
