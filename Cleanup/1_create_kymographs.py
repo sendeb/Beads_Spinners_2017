@@ -49,14 +49,15 @@ minmass = params['minmass']
 avg = np.mean(frames, axis = 0)
 sdv = np.std(frames, axis=0)
 
-ret,th1=cv2.threshold(convert_to_8bit(sdv),60,255,cv2.THRESH_BINARY)
+ret,th1=cv2.threshold(convert_to_8bit(sdv),50,255,cv2.THRESH_BINARY)
 
 # use a 3x3 kernel to close the binary image
 kernel = np.ones((3,3), np.uint8)
 th1_closed=cv2.morphologyEx(th1,cv2.MORPH_CLOSE,kernel)
 avg_masked = cv2.bitwise_and(avg,avg,mask=th1_closed)
-f = tp.locate(avg_masked, diameter=diameter, invert=False, minmass=minmass)
-f = f[(f['ecc'] < ecc)]
+
+# without bandpass preprocessing we achieve tighter detection of maxima
+f = tp.locate(avg_masked,diameter=diameter,invert=False,preprocess=False)
 
 #cycle through cells and filter the ones we want to keep. We want to do this so that the centers array is accurate and can be processed directly.
 
