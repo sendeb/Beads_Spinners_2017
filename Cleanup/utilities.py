@@ -217,10 +217,12 @@ def process_kymograph(kymograph):
 
 def process_kymograph2(kymograph):
 	filtered = []
-	rmeans = np.mean(kymograph,axis=0)
+	rmeans = np.mean(kymograph,axis=1)
 	for i in range(kymograph.shape[0]):
 		# first, subtract each horizontal row's mean from itself to filter the kymograph
-		filtered.append(kymograph[i,:]-rmeans[i])
+		krow = kymograph[i,:]
+		krow[:] = [k-rmeans[i] for k in kymograph[i,:]]
+		filtered.append(krow)
 
 	filtered = np.array(filtered)
 	
@@ -239,10 +241,24 @@ def compute_trace(processed_kymograph):
     trace = weighted_sum
     return trace
 	
-# def compute_trace2(unprocessed_kymograph):
-    # # extract 1D signal by going through the kymograph column by column
-	# # and detecting maxima (pixels greater than background)
+def compute_trace2(processed_kymograph):
+    # extract 1D signal by going through the kymograph column by column
+	# and detecting maxima after 30 degree (windowsize 6) moving average smooth
+	trace = []
+	for i in range(processed_kymograph.shape[1]):
+		trace.append(np.argmax(smooth(processed_kymograph[:,i],7)))
 
+	return np.asarray(trace)
+
+def smooth(a,WSZ):
+	# smoothing function that emulates MATLAB smooth weighted average over windowsize = WSZ, odd integer
+	# shared by Divakar on stack overflow https://stackoverflow.com/questions/40443020/matlabs-smooth-implementation-n-point-moving-average-in-numpy-python
+	# special cases for the edge cases are handled the same way as in MATLAB
+    out0 = np.convolve(a,np.ones(WSZ),'valid')/WSZ    
+    r = np.arange(1,WSZ-1,2)
+    start = np.cumsum(a[:WSZ-1])[::2]/r
+    stop = (np.cumsum(a[:-WSZ:-1])[::2]/r)[::-1]
+    return np.concatenate((  start , out0, stop  ))
 
 def plot_kymograph(kymograph):
     plt.title('Kymograph', fontsize=20)

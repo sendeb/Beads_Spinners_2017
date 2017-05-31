@@ -1,6 +1,6 @@
 %% ROTary KYMograph THResholder
 
-I = imread('testkym.tif');
+I = imread('unprocessedkym.tif');
 T = zeros(size(I));
 F = zeros(size(I));
 
@@ -11,14 +11,14 @@ d = sqrt(var(I,0,2));
 for rr = 1:size(I,1)
     T(rr,:) = I(rr,:) > (m(rr)+2*d(rr));
     
-    % filter subtract median of each row from the row
+    % filter subtract mean of each row from the row
     F(rr,:) = I(rr,:) - m(rr);
 end
 
 % go through each gaussian blurred column of filtered kymograph and return max pixel index
 thetas = zeros(1,size(I,2));
 for cc = 1:size(F,2)
-    [x,ind] = max(F(:,cc));
+    [x,ind] = max(smooth(F(:,cc),6));
     thetas(cc) = ind*360/72;
 end
 thetas = thetas*pi/180;

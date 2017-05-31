@@ -17,7 +17,7 @@ for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For
 	t0 = time.time()
 	print 'Percent complete:', cell_num*100./num_elems, '%'
 	print "step1", time.time() - t0
-	trace = compute_trace(processed_kymograph)
+	trace = compute_trace2(processed_kymograph)
 	print "step2", time.time() - t0
 	bacterial_traces.append(trace * 360.0 / ang_chunks)
 
@@ -27,8 +27,8 @@ for cell_num, processed_kymograph in enumerate(kymograph_images): #### NOTE: For
 			plt.xlabel('Frame', fontsize=20)
 			plt.ylabel('Angle', fontsize=20)
 			plt.title('Kymograph with Position Detected', fontsize=20)
-			plt.imshow(processed_kymograph[:,:2000], cmap='gray')
-			plt.plot(trace[:2000], 'r-', lw = 3)
+			plt.imshow(processed_kymograph[:,:300], cmap='gray')
+			plt.plot(trace[:300], 'r-', lw = 3)
 			plt.show()
 
 np.save('traces/' + videos_dir + video_name + '_traces', bacterial_traces)

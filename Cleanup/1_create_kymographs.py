@@ -132,8 +132,8 @@ np.save('kymographs/' + videos_dir + video_name + '_kymographs', kymograph_image
 print('Sucessfully saved!')
 
 # save last kymograph as a tif for kicks on imagej
-#kym = Image.fromarray(processed_kymograph)
-#kym.save('kymographs/processedkym.tif')	
+kym = Image.fromarray(processed_kymograph)
+kym.save('kymographs/processedkym.tif')	
 
-#kym = Image.fromarray(unprocessed_kymograph)
-#kym.save('kymographs/unprocessedkym.tif')	
+kym = Image.fromarray(unprocessed_kymograph)
+kym.save('kymographs/unprocessedkym.tif')	
