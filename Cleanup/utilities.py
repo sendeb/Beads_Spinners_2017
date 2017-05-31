@@ -243,10 +243,10 @@ def compute_trace(processed_kymograph):
 	
 def compute_trace2(processed_kymograph):
     # extract 1D signal by going through the kymograph column by column
-	# and detecting maxima after 30 degree (windowsize 6) moving average smooth
+	# and detecting maxima
 	trace = []
 	for i in range(processed_kymograph.shape[1]):
-		trace.append(np.argmax(smooth(processed_kymograph[:,i],7)))
+		trace.append(np.argmax(processed_kymograph[:,i]))
 
 	return np.asarray(trace)
 

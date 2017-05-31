@@ -42,7 +42,7 @@ plot(diff(u));
 title('angular velocity (degrees/sec)')
 xlabel('frame');
 
-T = diff(u)>-5;
+T = diff(u)>0;
 subplot(313)
 % 100 ms median filter, since tumbles are 100-300ms
 plot(medfilt1(double(T),8))

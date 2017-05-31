@@ -23,7 +23,7 @@ def compute_bias(trace, window=7, first=None):
   bias = []
   
   # 1. Derivative of 1D signal. (Angular velocity) Use to get signs, which tell us CCW or CW. 
-  conv = np.convolve([-1.,1], trace, mode='full') # SHOULD WE UNWRAP?
+  conv = np.convolve([-1.,1], trace, mode='full')
   # Optionally: 
   #       median_filtered_conv = median_filter(conv, 7) # pick window size based on result. second arg is odd number.
 
@@ -31,7 +31,7 @@ def compute_bias(trace, window=7, first=None):
   signs = np.sign(conv) #Positive values correspond to cw rotation. Negative = ccw rotation.
 
   # Optionally:
-  #       filtered_signs = median_filter(signs, 5) # pick window size based on result. second arg is odd number.
+  filtered_signs = median_filter(signs, 9) # pick window size based on result. second arg is odd number.
 
   # 3. Compute bias over each window-length interval
   # no sliding window as here:
@@ -39,11 +39,11 @@ def compute_bias(trace, window=7, first=None):
     for i in range(len(trace) - window):
       interval = signs[i:i+window]
       bias.append(interval_bias(interval))
-    interval = signs
+    interval = filtered_signs
     bias = interval_bias(interval)
     return bias
   else: # use first 'first' frames to compute bias
-    interval = signs[:first]
+    interval = filtered_signs[:first]
     bias = interval_bias(interval)
     return bias
 
@@ -51,7 +51,8 @@ def compute_MISI(trace, frames=800):
   # Output: real number representing average time between switches.
   conv = np.convolve([-1.,1], trace, mode='full')
   signs = np.sign(conv)[:frames]
-
+  filtered_signs = median_filter(signs, 9) # pick window size based on result. second arg is odd number.
+  
   ccw_lengths, cw_lengths = list(), list()
   ccw_cur_length, cw_cur_length = 0, 0
 
@@ -60,10 +61,10 @@ def compute_MISI(trace, frames=800):
 
   for i in range(len(signs) -1):
     # Started a run
-    s = signs[i]
+    s = filtered_signs[i]
     if np.isnan(s):
       print' isn an'
-    s_next = signs[i+1]
+    s_next = filtered_signs[i+1]
 
     if not on_cw and not on_ccw: #Positive values correspond to ccw rotation. Negative = cw rotation.
       if s == 1 or s == 0:
@@ -90,6 +91,8 @@ def compute_MISI(trace, frames=800):
     
 def compute_features_for_each_trace():
   for trace in traces:
+    # unwrap and smooth the trace before computing the bias
+    trace =smooth(np.unwrap(trace*np.pi/180.0),11)*180/np.pi;
     biases = compute_bias(trace, first=800) # Set first and frames so that it's about 10 s of data.
     ccw_MISI, cw_MISI = compute_MISI(trace, frames=800)
     features['bias'].append(biases)
