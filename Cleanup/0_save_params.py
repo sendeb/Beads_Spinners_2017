@@ -43,24 +43,25 @@ sdv = np.std(frames, axis=0)
 #######################       SET Parameters      ################################
 ##################################################################################
 
-diameter = 3 ## approximate size in pixels of object you're trying to locate.
+diameter = 3 ## approximate size in pixels of object you're trying to locate. Odd integer.
+minmass = 50 ## min integral of brightness for a particle
 ecc = 0.7 # 0 means circular
-minmass = 0 ## min integral of brightness for a particle
 
 ##################################################################################
 ##################################################################################
 ##################################################################################
 
-#f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass)
-#f = tp.locate(sdv, diameter=diameter, invert=False, minmass=minmass)
-ret,th1=cv2.threshold(convert_to_8bit(sdv),60,255,cv2.THRESH_BINARY)
+# threshold the image to only analyze high deviation regions
+ret,th1=cv2.threshold(convert_to_8bit(sdv),50,255,cv2.THRESH_BINARY)
 
-# use a 3x3 kernel to close the binary image
+# use a 3x3 kernel to close the binary image (spinning cells are donut-shaped)
 kernel = np.ones((3,3), np.uint8)
 th1_closed=cv2.morphologyEx(th1,cv2.MORPH_CLOSE,kernel)
 avg_masked = cv2.bitwise_and(avg,avg,mask=th1_closed)
-f = tp.locate(avg_masked, diameter=diameter, invert=False, minmass=minmass)
-f = f[(f['ecc'] < ecc)]
+
+# without bandpass preprocessing we achieve tighter detection of maxima
+f = tp.locate(avg_masked,diameter=diameter,invert=False,preprocess=False)
+#f = f[(f['ecc'] < ecc)]
 
 # Uncomment below to view distribution of a value.
 if len(sys.argv) >= 4 and sys.argv[3] == '--s':

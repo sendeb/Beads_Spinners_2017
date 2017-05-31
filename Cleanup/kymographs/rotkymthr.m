@@ -1,6 +1,6 @@
 %% ROTary KYMograph THResholder
 
-I = imread('unprocessedkym.tif');
+I = imread('testkym.tif');
 T = zeros(size(I));
 F = zeros(size(I));
 
@@ -33,12 +33,27 @@ thetas = thetas*pi/180;
 
 %% plots
 subplot(311)
-u =smooth(unwrap(thetas(1:2000)),10)*180/pi;
+u =smooth(unwrap(thetas(1:300)),10)*180/pi;
 plot(u);
+xlabel('frame')
+title('unwrapped angle (degrees)')
 subplot(312)
 plot(diff(u));
+title('angular velocity (degrees/sec)')
+xlabel('frame');
 
 T = diff(u)>-5;
 subplot(313)
 % 100 ms median filter, since tumbles are 100-300ms
 plot(medfilt1(double(T),8))
+title('direction (100 msec median filtered)')
+xlabel('frame')
+
+figure(2)
+subplot(211)
+imagesc(I(:,1:300))
+title('raw kymograph')
+colormap gray
+subplot(212)
+imagesc(F(:,1:300))
+title('filtered kymograph')
