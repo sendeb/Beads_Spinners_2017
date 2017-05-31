@@ -17,6 +17,7 @@ import metamorph_timestamps
 from scipy.ndimage.filters import median_filter
 import sys
 import os
+from PIL import Image
 
 mpl.rc('figure',  figsize=(16, 10))
 mpl.rc('image', cmap='gray')
@@ -70,39 +71,39 @@ concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 #for Serine
 paths = {
 '1mM': [
-    '1mM/1mM_ser1m_1.tif',
-    '1mM/1mM_ser1m_2.tif',
-    '1mM/1mM_ser1m_3.tif',
-    '1mM/1mM_ser1m_4.tif',
-    '1mM/1mM_ser1m_5.tif'
+    '1mM/1mM_leu1m_1.tif',
+    '1mM/1mM_leu1m_2.tif',
+    '1mM/1mM_leu1m_3.tif',
+    '1mM/1mM_leu1m_4.tif',
+    '1mM/1mM_leu1m_5.tif'
     ],
 '1uM' : [
-    '1uM/1uM_ser1u_1.tif',
-    '1uM/1uM_ser1u_2.tif',
-    '1uM/1uM_ser1u_3.tif',
-    '1uM/1uM_ser1u_4.tif',
-    '1uM/1uM_ser1u_5.tif'
+    '1uM/1uM_leu1u_1.tif',
+    '1uM/1uM_leu1u_2.tif',
+    '1uM/1uM_leu1u_3.tif',
+    '1uM/1uM_leu1u_4.tif',
+    '1uM/1uM_leu1u_5.tif'
     ],
 '10uM' : [
-    '10uM/10uM_ser10u_1.tif',
-    '10uM/10uM_ser10u_2.tif',
-    '10uM/10uM_ser10u_3.tif',
-    '10uM/10uM_ser10u_4.tif',
-    '10uM/10uM_ser10u_5.tif'
+    '10uM/10uM_leu10u_1.tif',
+    '10uM/10uM_leu10u_2.tif',
+    '10uM/10uM_leu10u_3.tif',
+    '10uM/10uM_leu10u_4.tif',
+    '10uM/10uM_leu10u_5.tif'
     ],
 '100nM' : [
-    '100nM/100nM_ser100n_1.tif',
-    '100nM/100nM_ser100n_2.tif',
-    '100nM/100nM_ser100n_3.tif',
-    '100nM/100nM_ser100n_4.tif',
-    '100nM/100nM_ser100n_5.tif'
+    '100nM/100nM_leu100n_1.tif',
+    '100nM/100nM_leu100n_2.tif',
+    '100nM/100nM_leu100n_3.tif',
+    '100nM/100nM_leu100n_4.tif',
+    '100nM/100nM_leu100n_5.tif'
     ],
 '100uM' : [
-    '100uM/100uM_ser100u_1.tif',
-    '100uM/100uM_ser100u_2.tif',
-    '100uM/100uM_ser100u_3.tif',
-    '100uM/100uM_ser100u_4.tif',
-    '100uM/100uM_ser100u_5.tif'
+    '100uM/100uM_leu100u_1.tif',
+    '100uM/100uM_leu100u_2.tif',
+    '100uM/100uM_leu100u_3.tif',
+    '100uM/100uM_leu100u_4.tif',
+    '100uM/100uM_leu100u_5.tif'
     ],
 'MotMed' : [
     'MotMed/MotMed_mm_1.tif',
@@ -115,7 +116,7 @@ paths = {
 
 angs = []
 # Set this!
-for i in np.linspace(0, 360, 12): #select num. intervals per circle.
+for i in np.linspace(0, 360, 72): #select num. intervals per circle.
     angs.append(i)
 
 def create_directories(list_of_directories):
@@ -213,6 +214,17 @@ def process_kymograph(kymograph):
     # Change negative values to 0.
     clipped_background = no_background.clip(min=0)
     return clipped_background # the processed kymograph
+
+def process_kymograph2(kymograph):
+	filtered = []
+	rmeans = np.mean(kymograph,axis=0)
+	for i in range(kymograph.shape[0]):
+		# first, subtract each horizontal row's mean from itself to filter the kymograph
+		filtered.append(kymograph[i,:]-rmeans[i])
+
+	filtered = np.array(filtered)
+	
+	return filtered
     
 def compute_trace(processed_kymograph):
     # Extract 1D signal using LA trick.
@@ -226,12 +238,17 @@ def compute_trace(processed_kymograph):
     # median_filtered_conv = median_filter(conv, 7) #pick window size based on result. second arg and odd number.
     trace = weighted_sum
     return trace
+	
+# def compute_trace2(unprocessed_kymograph):
+    # # extract 1D signal by going through the kymograph column by column
+	# # and detecting maxima (pixels greater than background)
+
 
 def plot_kymograph(kymograph):
     plt.title('Kymograph', fontsize=20)
     plt.ylabel('Angles', fontsize=20)
     plt.xlabel('Frame', fontsize=20)
-    plt.imshow(kymograph[:,:300])
+    plt.imshow(kymograph)
 
 
 #Returns the indices (frame locations) of when the sign switches.

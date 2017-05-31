@@ -47,9 +47,15 @@ ecc = params['ecc']
 minmass = params['minmass']
 
 avg = np.mean(frames, axis = 0)
+sdv = np.std(frames, axis=0)
 
-#possibly filter particles using ecc vals stationary cells will not look circular
-f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass) #change 15 later, need to tune
+ret,th1=cv2.threshold(convert_to_8bit(sdv),60,255,cv2.THRESH_BINARY)
+
+# use a 3x3 kernel to close the binary image
+kernel = np.ones((3,3), np.uint8)
+th1_closed=cv2.morphologyEx(th1,cv2.MORPH_CLOSE,kernel)
+avg_masked = cv2.bitwise_and(avg,avg,mask=th1_closed)
+f = tp.locate(avg_masked, diameter=diameter, invert=False, minmass=minmass)
 f = f[(f['ecc'] < ecc)]
 
 #cycle through cells and filter the ones we want to keep. We want to do this so that the centers array is accurate and can be processed directly.
@@ -105,20 +111,28 @@ num_filtered_centers = len(filtered_centers)
 #################################################################
 
 ### CHANGE RADIUS and W; view with "--s" to see if window is big enough.
-radius = 6 # pixel radius of cell == length of filter
+radius = 3 # pixel radius of cell == length of filter
 w, l = 1.5, radius # choose dimensions of rotating window
 mymask = np.array([[w,0],[-w,0],[-w,l],[w,l]])
 
 kymograph_images = []
 for cell_num in range(num_filtered_centers): #### NOTE: For now only 10 cells until we get things working! ####
-    t0 = time.time()
-    print 'Percent complete:', cell_num*100./num_filtered_centers, '%'
-    unprocessed_kymograph = build_kymograph(cell_num, frames, mymask, filtered_centers, Show=Show)
-    print "step1", time.time() - t0
+	t0 = time.time()
+	print 'Percent complete:', cell_num*100./num_filtered_centers, '%'
+	unprocessed_kymograph = build_kymograph(cell_num, frames, mymask, filtered_centers, Show=Show)
+	print "step1", time.time() - t0
     # kymograph = invert_colors(unprocessed_kymograph) -- this line for black cells on white background
-    processed_kymograph = process_kymograph(unprocessed_kymograph)
-    kymograph_images.append(processed_kymograph)
-    print "step2", time.time() - t0
+	processed_kymograph = process_kymograph2(unprocessed_kymograph)
+	
+	kymograph_images.append(processed_kymograph)
+	print "step2", time.time() - t0
 
 np.save('kymographs/' + videos_dir + video_name + '_kymographs', kymograph_images)
 print('Sucessfully saved!')
+
+# save last kymograph as a tif for kicks on imagej
+kym = Image.fromarray(processed_kymograph)
+kym.save('kymographs/processedkym.tif')	
+
+kym = Image.fromarray(unprocessed_kymograph)
+kym.save('kymographs/unprocessedkym.tif')	

@@ -37,6 +37,7 @@ frames = np.array(bit_frames)
 
 #avg is the average along the z axis of the image stack aka average image
 avg = np.mean(frames, axis = 0)
+sdv = np.std(frames, axis=0)
 
 ##################################################################################
 #######################       SET Parameters      ################################
@@ -44,13 +45,21 @@ avg = np.mean(frames, axis = 0)
 
 diameter = 3 ## approximate size in pixels of object you're trying to locate.
 ecc = 0.7 # 0 means circular
-minmass = 100 ## min integral of brightness for a particle
+minmass = 0 ## min integral of brightness for a particle
 
 ##################################################################################
 ##################################################################################
 ##################################################################################
 
-f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass)
+#f = tp.locate(avg, diameter=diameter, invert=False, minmass=minmass)
+#f = tp.locate(sdv, diameter=diameter, invert=False, minmass=minmass)
+ret,th1=cv2.threshold(convert_to_8bit(sdv),60,255,cv2.THRESH_BINARY)
+
+# use a 3x3 kernel to close the binary image
+kernel = np.ones((3,3), np.uint8)
+th1_closed=cv2.morphologyEx(th1,cv2.MORPH_CLOSE,kernel)
+avg_masked = cv2.bitwise_and(avg,avg,mask=th1_closed)
+f = tp.locate(avg_masked, diameter=diameter, invert=False, minmass=minmass)
 f = f[(f['ecc'] < ecc)]
 
 # Uncomment below to view distribution of a value.
@@ -71,8 +80,8 @@ if len(sys.argv) >= 4 and sys.argv[3] == '--s':
 fig, ax = plt.subplots()
 fig.canvas.mpl_connect('key_press_event', press)
 ax.set_title('Is this a good choice of parameters? If yes, press \'y\', else press ESC.')
-tp.annotate(f, avg)
-
+# tp.annotate(f, avg)
+tp.annotate(f,avg_masked)
 
 # If got this far, save paramters to file: VIDEONAME + params .npy
 # Parameters are the variables that result in the current
