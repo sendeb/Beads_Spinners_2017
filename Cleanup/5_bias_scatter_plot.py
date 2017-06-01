@@ -21,52 +21,52 @@ concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 #     the particular bacterium.
 paths = {
 '1mM': [
-    '1mM/1mM_ser1m_1.tif',
-    '1mM/1mM_ser1m_2.tif',
-    '1mM/1mM_ser1m_3.tif',
-    '1mM/1mM_ser1m_4.tif',
-    '1mM/1mM_ser1m_5.tif'
+    '1mM/1mM_leu1m_1.tif',
+    '1mM/1mM_leu1m_2.tif',
+    '1mM/1mM_leu1m_3.tif',
+    '1mM/1mM_leu1m_4.tif',
+    '1mM/1mM_leu1m_5.tif'
     ],
-'1uM' : [
-    '1uM/1uM_ser1u_1.tif',
-    '1uM/1uM_ser1u_2.tif',
-    '1uM/1uM_ser1u_3.tif',
-    '1uM/1uM_ser1u_4.tif',
-    '1uM/1uM_ser1u_5.tif'
-    ],
-'10uM' : [
-    '10uM/10uM_ser10u_1.tif',
-    '10uM/10uM_ser10u_2.tif',
-    '10uM/10uM_ser10u_3.tif',
-    '10uM/10uM_ser10u_4.tif',
-    '10uM/10uM_ser10u_5.tif'
-    ],
-'100nM' : [
-    '100nM/100nM_ser100n_1.tif',
-    '100nM/100nM_ser100n_2.tif',
-    '100nM/100nM_ser100n_3.tif',
-    '100nM/100nM_ser100n_4.tif',
-    '100nM/100nM_ser100n_5.tif'
-    ],
+# '1uM' : [
+    # '1uM/1uM_leu1u_1.tif',
+    # '1uM/1uM_leu1u_2.tif',
+    # '1uM/1uM_leu1u_3.tif',
+    # '1uM/1uM_leu1u_4.tif',
+    # '1uM/1uM_leu1u_5.tif'
+    # ],
+# '10uM' : [
+    # '10uM/10uM_leu10u_1.tif',
+    # '10uM/10uM_leu10u_2.tif',
+    # '10uM/10uM_leu10u_3.tif',
+    # '10uM/10uM_leu10u_4.tif',
+    # '10uM/10uM_leu10u_5.tif'
+    # ],
+# '100nM' : [
+    # '100nM/100nM_leu100n_1.tif',
+    # '100nM/100nM_leu100n_2.tif',
+    # '100nM/100nM_leu100n_3.tif',
+    # '100nM/100nM_leu100n_4.tif',
+    # '100nM/100nM_leu100n_5.tif'
+    # ],
 '100uM' : [
-    '100uM/100uM_ser100u_1.tif',
-    '100uM/100uM_ser100u_2.tif',
-    '100uM/100uM_ser100u_3.tif',
-    '100uM/100uM_ser100u_4.tif',
-    '100uM/100uM_ser100u_5.tif'
+    '100uM/100uM_leu100u_1.tif',
+    '100uM/100uM_leu100u_2.tif',
+    '100uM/100uM_leu100u_3.tif',
+    '100uM/100uM_leu100u_4.tif',
+    '100uM/100uM_leu100u_5.tif'
     ],
-'MotMed' : [
-    'MotMed/MotMed_mm_1.tif',
-    'MotMed/MotMed_mm_2.tif',
-    'MotMed/MotMed_mm_3.tif',
-    'MotMed/MotMed_mm_4.tif',
-    'MotMed/MotMed_mm_5.tif'
-    ]
+# 'MotMed' : [
+    # 'MotMed/MotMed_mm_1.tif',
+    # 'MotMed/MotMed_mm_2.tif',
+    # 'MotMed/MotMed_mm_3.tif',
+    # 'MotMed/MotMed_mm_4.tif',
+    # 'MotMed/MotMed_mm_5.tif'
+    # ]
 }
 
 angs = []
 # Set this!
-for i in np.linspace(0, 360, 12): #select num. intervals per circle.
+for i in np.linspace(0, 360, 72): #select num. intervals per circle.
     angs.append(i)
 
 def create_directories(list_of_directories):

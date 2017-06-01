@@ -32,6 +32,7 @@ def compute_bias(trace, window=7, first=None):
 
   # Optionally:
   filtered_signs = median_filter(signs, 9) # pick window size based on result. second arg is odd number.
+  # should probably use some hysteresis thresholding instead, try it!
 
   # 3. Compute bias over each window-length interval
   # no sliding window as here:

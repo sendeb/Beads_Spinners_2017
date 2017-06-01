@@ -243,7 +243,7 @@ def compute_trace(processed_kymograph):
 	
 def compute_trace2(processed_kymograph):
     # extract 1D signal by going through the kymograph column by column
-	# and detecting maxima
+	# and detecting maxima 
 	trace = []
 	for i in range(processed_kymograph.shape[1]):
 		trace.append(np.argmax(processed_kymograph[:,i]))
