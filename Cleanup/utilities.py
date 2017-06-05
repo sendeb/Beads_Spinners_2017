@@ -68,7 +68,7 @@ concentrations = ['100nM', '1uM', '10uM', '100uM', '1mM', 'MotMed']
 #     ]
 # }
 
-#for Serine
+#for Leucine
 paths = {
 '1mM': [
     '1mM/1mM_leu1m_1.tif',

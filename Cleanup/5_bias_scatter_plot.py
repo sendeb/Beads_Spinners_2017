@@ -27,27 +27,27 @@ paths = {
     '1mM/1mM_leu1m_4.tif',
     '1mM/1mM_leu1m_5.tif'
     ],
-# '1uM' : [
-    # '1uM/1uM_leu1u_1.tif',
-    # '1uM/1uM_leu1u_2.tif',
-    # '1uM/1uM_leu1u_3.tif',
-    # '1uM/1uM_leu1u_4.tif',
-    # '1uM/1uM_leu1u_5.tif'
-    # ],
-# '10uM' : [
-    # '10uM/10uM_leu10u_1.tif',
-    # '10uM/10uM_leu10u_2.tif',
-    # '10uM/10uM_leu10u_3.tif',
-    # '10uM/10uM_leu10u_4.tif',
-    # '10uM/10uM_leu10u_5.tif'
-    # ],
-# '100nM' : [
-    # '100nM/100nM_leu100n_1.tif',
-    # '100nM/100nM_leu100n_2.tif',
-    # '100nM/100nM_leu100n_3.tif',
-    # '100nM/100nM_leu100n_4.tif',
-    # '100nM/100nM_leu100n_5.tif'
-    # ],
+'1uM' : [
+    '1uM/1uM_leu1u_1.tif',
+    '1uM/1uM_leu1u_2.tif',
+    '1uM/1uM_leu1u_3.tif',
+    '1uM/1uM_leu1u_4.tif',
+    '1uM/1uM_leu1u_5.tif'
+    ],
+'10uM' : [
+    '10uM/10uM_leu10u_1.tif',
+    '10uM/10uM_leu10u_2.tif',
+    '10uM/10uM_leu10u_3.tif',
+    '10uM/10uM_leu10u_4.tif',
+    '10uM/10uM_leu10u_5.tif'
+    ],
+'100nM' : [
+    '100nM/100nM_leu100n_1.tif',
+    '100nM/100nM_leu100n_2.tif',
+    '100nM/100nM_leu100n_3.tif',
+    '100nM/100nM_leu100n_4.tif',
+    '100nM/100nM_leu100n_5.tif'
+    ],
 '100uM' : [
     '100uM/100uM_leu100u_1.tif',
     '100uM/100uM_leu100u_2.tif',
@@ -55,13 +55,13 @@ paths = {
     '100uM/100uM_leu100u_4.tif',
     '100uM/100uM_leu100u_5.tif'
     ],
-# 'MotMed' : [
-    # 'MotMed/MotMed_mm_1.tif',
-    # 'MotMed/MotMed_mm_2.tif',
-    # 'MotMed/MotMed_mm_3.tif',
-    # 'MotMed/MotMed_mm_4.tif',
-    # 'MotMed/MotMed_mm_5.tif'
-    # ]
+'MotMed' : [
+    'MotMed/MotMed_mm_1.tif',
+    'MotMed/MotMed_mm_2.tif',
+    'MotMed/MotMed_mm_3.tif',
+    'MotMed/MotMed_mm_4.tif',
+    'MotMed/MotMed_mm_5.tif'
+    ]
 }
 
 angs = []
@@ -174,12 +174,12 @@ if __name__ == '__main__':
 fig = plt.figure()
 ax = plt.gca()
 plt.title('Bias vs. Concentration')
-plt.xlabel('Concentration of chemoattractant (serine)')
+plt.xlabel('Concentration of chemoattractant (leucine)')
 plt.ylabel('Avergage bias')
-plt.errorbar(avg_biases.keys(), avg_biases.values(), yerr=errs, c='b', label='Non-adapting', fmt='o')
-plt.errorbar(avg_biases2.keys(), avg_biases2.values(), yerr=errs2, c='g', label='Wild type', fmt='o')
+plt.errorbar(avg_biases.keys(), avg_biases.values(), yerr=errs, c='b', label='leucine', fmt='o')
+#plt.errorbar(avg_biases2.keys(), avg_biases2.values(), yerr=errs2, c='g', label='Wild type', fmt='o')
 plt.legend(loc='upper right')
 plt.xscale('log')
 plt.xlim(1*1e-9, 1)
 plt.show()
-fig.savefig('serine_with_std_error_bars.png')
+fig.savefig('leucine_with_std_error_bars.png')
